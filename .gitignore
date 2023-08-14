@@ -4,4 +4,5 @@ grid_backend.iml
 PineConeLocal/Include/
 PineConeLocal/Lib/
 PineConeLocal/Scripts/
-PineConeLocal/pyvenv.cfg/
+PineConeLocal/share/
+PineConeLocal/pyvenv.cfg
