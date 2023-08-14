@@ -6,3 +6,4 @@ PineConeLocal/Lib/
 PineConeLocal/Scripts/
 PineConeLocal/share/
 PineConeLocal/pyvenv.cfg
+__pycache__
