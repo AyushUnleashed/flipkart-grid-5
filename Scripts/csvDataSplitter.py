@@ -2,7 +2,7 @@ import csv
 import os
 
 def split_csv(input_file, output_directory, chunk_size, num_output_files):
-    with open(input_file, 'r') as csv_file:
+    with open(input_file, 'r', encoding='utf-8') as csv_file:
         reader = csv.reader(csv_file)
         header = next(reader)  # Assuming the first row is the header
         
@@ -33,12 +33,12 @@ def split_csv(input_file, output_directory, chunk_size, num_output_files):
                 writer.writerows(entries)
 
 if __name__ == "__main__":
-    input_csv_file = "./data/styles.csv"  # Replace with your input CSV file name
-    output_folder = "./userData/"  # Replace with the desired output directory
+    input_csv_file = "../dataset/main_dataset.csv"  # Replace with your input CSV file name
+    output_folder = "../dataset"  # Replace with the desired output directory
     # number of entries in one output file
-    chunk_size = 50
+    chunk_size = 100
     # number of output files
-    num_output_files = 5
+    num_output_files = 1
     
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)

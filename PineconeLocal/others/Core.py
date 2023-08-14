@@ -31,7 +31,7 @@ from io import BytesIO
 from datasets import Dataset
 
 # Load CSV data into a Pandas DataFrame
-csv_path = "./Current-Data1.csv"
+csv_path = "../Current-Data1.csv"
 data = pd.read_csv(csv_path,encoding='utf-8')
 
 metadata = data.drop(columns=['year'])

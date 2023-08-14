@@ -7,3 +7,4 @@ PineConeLocal/Scripts/
 PineConeLocal/share/
 PineConeLocal/pyvenv.cfg
 __pycache__
+.~lock.main_dataset.csv#

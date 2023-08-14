@@ -50,7 +50,7 @@ def main():
     api_key = os.getenv("PINECONE_API_KEY")
     environment = os.getenv("PINECONE_ENVIRONMENT")
     index_name = "grid-database"
-    csv_path = "./Current-Data1.csv"
+    csv_path = "../Current-Data1.csv"
     
     pinecone_connector = PineconeConnector(api_key, environment)
     pinecone_connector.create_index(index_name)
