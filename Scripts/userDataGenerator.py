@@ -19,7 +19,7 @@ def split_filtered_csv(input_file, output_file, num_entries_per_type):
                 female_tops_entries.append(row)
             elif gender == 'women' and article_type == 'skirts' and len(female_skirts_entries) < num_entries_per_type:
                 female_skirts_entries.append(row)
-            elif gender == 'women' and article_type == 'casual shoes' and len(female_shoes_entries) < num_entries_per_type:
+            elif gender == 'women' and article_type == 'casual_shoes' and len(female_shoes_entries) < num_entries_per_type:
                 female_shoes_entries.append(row)
             
             if len(female_tops_entries) >= num_entries_per_type and len(female_skirts_entries) >= num_entries_per_type and len(female_shoes_entries) >= num_entries_per_type:
@@ -38,7 +38,7 @@ def split_filtered_csv(input_file, output_file, num_entries_per_type):
             writer.writerows(female_entries)
 
 if __name__ == "__main__":
-    input_csv_file = "./Scripts/new_data_set/new_data_set.csv"  # Replace with your input CSV file name
+    input_csv_file = "./Scripts/new_data_set/new_data_set_modified.csv"  # Replace with your input CSV file name
     output_csv_file = "./Scripts/new_user_data/new_gwen.csv"  # Replace with the desired output CSV file name
     num_entries_per_type = 15
     
