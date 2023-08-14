@@ -51,20 +51,6 @@ def extract_keys(data):
     extracted_data["Sleeve length"] = article_attributes.get("Sleeve Length", "none").lower()
     extracted_data["Fabric"] = article_attributes.get("Fabric", "none").lower()
     extracted_data["Neck"] = article_attributes.get("Neck", "none").lower()
-
-    
-#     print(extracted_data["id"])
-#     print("Article Attributes:", article_attributes)  # Debugging line
-
-# # extracted_data["Sleeve styling"] = article_attributes.get("Sleeve Styling", "none").lower()
-#     print("Sleeve Styling:", extracted_data["Sleeve styling"])  # Debugging line
-
-# # extracted_data["Sleeve length"] = article_attributes.get("Sleeve Length", "none").lower()
-#     print("Sleeve Length:", extracted_data["Sleeve length"])  # Debugging line
-# ...
-
-    
-    
     other_flags_list = data_info.get("otherFlags", [])
     other_flags = extract_other_flags(other_flags_list)
     if len(other_flags) != 0:
@@ -102,7 +88,7 @@ df = pd.DataFrame(output_data)
 column_order = ["id", "productDisplayName", "brandName", "masterCategory", "subCategory", "articleType", "gender", "baseColour", "season", "usage", "Fit", "Pattern", "Shape", "Occasion", "Sleeve styling", "Sleeve length", "Fabric", "Neck", "isJewellery", "productDescription1", "styleImage", "landingPageUrl"]
 
 # Append the DataFrame to a CSV file
-csv_filename = "./test_data/new_test.csv"
+csv_filename = "./new_data_set/new_data_set.csv"
 df[column_order].to_csv(csv_filename, index=False)
 
 print(f"Data has been appended to {csv_filename}")

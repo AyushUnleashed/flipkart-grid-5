@@ -2,3 +2,4 @@ openai
 openpyxl
 requests
 pandas
+beautifulsoup4
