@@ -1,0 +1,10 @@
+
+pandas
+requests
+Pillow
+datasets
+transformers
+sentence-transformers
+pinecone-client
+pinecone-text
+protobuf==3.20.3
