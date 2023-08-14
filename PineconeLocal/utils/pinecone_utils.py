@@ -3,6 +3,7 @@ import pinecone
 from pinecone_text.sparse import BM25Encoder
 from sentence_transformers import SentenceTransformer
 import torch
+import time
 
 def initialize_pinecone():
     try:
@@ -33,15 +34,32 @@ def create_index(index_name):
         print(f"Error creating index: {e}")
 
 def setup_pinecone():
-    try:
-        initialize_pinecone()
-        model, bm25 = get_clip_and_bm25_model()
+    start_time = time.time()
 
+    try:
+        print('Initializing Pinecone...')
+        initialize_pinecone()
+        print('Initialization completed.')
+
+        print('Getting CLIP and BM25 model...')
+        model, bm25 = get_clip_and_bm25_model()
+        print('Models obtained:')
+        print('---- Model:', model)
+        print('---- BM25:', bm25)
+
+        print('Creating index...')
         index_name = "grid-database"
         pinecone_index = create_index(index_name)
+        print('Index created:', pinecone_index)
+        print('Setup completed.')
+        end_time = time.time()
+        print(f'Time taken: {end_time - start_time} seconds')
         return pinecone_index, model, bm25
+
     except Exception as e:
         print(f"Error setting up Pinecone: {e}")
+
+
 
 
 
