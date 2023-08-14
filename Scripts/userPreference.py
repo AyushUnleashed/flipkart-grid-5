@@ -1,6 +1,6 @@
 import pandas as pd
 
-def get_most_frequent_elements(csv_file):
+def get_user_purchase_insight(csv_file):
     # Read the CSV file into a pandas DataFrame
     df = pd.read_csv(csv_file, encoding='ISO-8859-1')
 
@@ -30,8 +30,11 @@ def get_most_frequent_elements(csv_file):
     return most_frequent
 
 # Replace these values with your specific file name and subCategory value
-csv_file = "Scripts/new_user_data/new_gwen.csv"
 
-most_frequent = get_most_frequent_elements(csv_file)
-for frequent in most_frequent:
-    print(frequent)
+
+
+if __name__ == "__main__":
+    csv_file = "./dataset/user_history_data/gwen.csv"
+    most_frequent = get_user_purchase_insight(csv_file)
+    for frequent in most_frequent:
+        print(frequent)
