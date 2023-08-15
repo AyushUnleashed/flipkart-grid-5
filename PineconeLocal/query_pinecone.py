@@ -46,8 +46,8 @@ def main():
     with open(bm25_fname, 'rb') as f:
         bm25 = pickle.load(f)
     query = "Peter England baby blue jeans for men"
-    query = "locomotive jeans"
-    hard_filters = build_hard_filters(article_type="sports_shoes", color="silver", brand_name="reebok", gender="men")
+    #query = "locomotive jeans"
+    hard_filters = build_hard_filters(color="blue", brand_name="peter_england", gender="men")
     query_pinecone(query, pinecone_index, model, bm25, hard_filters)
 
 if __name__ == "__main__":

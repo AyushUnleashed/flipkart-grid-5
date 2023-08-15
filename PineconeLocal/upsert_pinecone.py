@@ -64,7 +64,7 @@ def upsert_csv(csv_file,char_enc, pinecone_index, model, bm25):
         data = data[['id', 'product_display_name', 'brand_name', 'color', 'master_category', 'sub_category', 'article_type', 'gender', 'season', 'occasion', 'is_jewellery', 'style_image', 'pattern', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']] # use only specified columns
         images = get_images(data)
         # fit the bm25 model with the 'productDisplayName' column
-        bm25.fit(data['productDisplayName'])
+        bm25.fit(data['product_display_name'])
 
         # Serialize and save the fitted model
         with open('bm25.pkl', 'wb') as f:
