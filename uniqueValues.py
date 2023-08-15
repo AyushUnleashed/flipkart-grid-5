@@ -1,4 +1,4 @@
-brandName: [
+brandName_array= [
         "nike",
         "locomotive",
         "reebok",
@@ -403,7 +403,7 @@ brandName: [
         "megadeth",
         "scholl"
     ]
-articleType: [
+articleType_array = [
         "tshirts",
         "shorts",
         "track_pants",
@@ -545,7 +545,7 @@ articleType: [
         "lehenga_choli",
         "shoe_laces"
     ]
-baseColour: [
+baseColour_array = [
         "white",
         "grey",
         "blue",
@@ -594,13 +594,13 @@ baseColour: [
         "mushroom_brown",
         "rose"
     ]
-season: [
+season = [
         "fall",
         "summer",
         "spring",
         "winter"
     ]
-usage: [
+usage_array = [
         "sports",
         "casual",
         "formal",
@@ -611,7 +611,7 @@ usage: [
         "party",
         "home"
     ]
-Fit: [
+Fit_array = [
         "regular_fit",
         "slim_fit",
         "skinny_fit",
@@ -625,7 +625,7 @@ Fit: [
         "tailored_fit",
         "straight_fit"
     ]
-Pattern: [
+Pattern_array = [
         "solid",
         "printed",
         "striped",
@@ -643,7 +643,7 @@ Pattern: [
         "perforations",
         "satin_finish"
     ]
-Shape: [
+Shape_array = [
         "fit_and_flare",
         "shirt",
         "a_line",
@@ -654,7 +654,7 @@ Shape: [
         "wrap",
         "empire"
     ]
-Occasion: [
+Occasion_array = [
         "sports",
         "casual",
         "semiformal",
@@ -670,7 +670,7 @@ Occasion: [
         "western",
         "evening"
     ]
-Sleeve_styling: [
+Sleeve_styling_array =[
         "regular_sleeves",
         "batwing_sleeves",
         "puff_sleeves",
@@ -689,14 +689,14 @@ Sleeve_styling: [
         "cold_shoulder_sleeves",
         "slit_sleeves"
     ]
-Sleeve_length: [
+Sleeve_length_array = [
         "short_sleeves",
         "long_sleeves",
         "sleeveless",
         "no_sleeves",
         "three_quarter_sleeves"
     ]
-Fabric: [
+Fabric_array = [
         "synthetic",
         "cotton",
         "blended",
@@ -722,7 +722,7 @@ Fabric: [
         "lyocell",
         "bamboo"
     ]
-Neck: [
+Neck_array = [
         "round_neck",
         "v_neck",
         "polo_collar",
