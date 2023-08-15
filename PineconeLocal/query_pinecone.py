@@ -1,6 +1,8 @@
-from utils.pinecone_utils import setup_pinecone
+from PineconeLocal.utils.pinecone_utils import setup_pinecone
 import pickle
-from utils.filters import build_hard_filters
+from PineconeLocal.utils.filters import build_hard_filters
+import os
+
 def hybrid_scale(dense, sparse, alpha: float):
     if alpha < 0 or alpha > 1:
         raise ValueError("Alpha must be between 0 and 1")
@@ -13,7 +15,7 @@ def hybrid_scale(dense, sparse, alpha: float):
     return hdense, hsparse
 
 
-def perform_query(pinecone_index, bm25, model, query, hard_filters, alpha=0.05, top_k=14):
+def perform_query(pinecone_index, bm25, model, query, hard_filters, top_k=14, alpha=0.05):
     sparse = bm25.encode_queries(query)
     dense = model.encode(query).tolist()
     # scale sparse and dense vectors
@@ -32,23 +34,35 @@ def perform_query(pinecone_index, bm25, model, query, hard_filters, alpha=0.05, 
 def query_pinecone(query, pinecone_index, model, bm25, hard_filters):
     result = perform_query(pinecone_index, bm25, model, query, hard_filters=hard_filters)
 
+    print("Result of pinecone query for query:", query, "\n\n")
     print(result["matches"])
+    if len(result["matches"]) > 0:
+        first_item = result["matches"][0]["metadata"]
+    else:
+        first_item = {}
     for x in result["matches"]:
         print(x["metadata"]['product_display_name'])
         print(x["metadata"]['style_image'])
         print("\n")
 
+    return first_item
 
-def main():
-    bm25_fname = "bm25.pkl"
+
+
+def run_pinecone_query(query, hard_filters):
+    bm25_fname = os.path.join(os.path.dirname(__file__),'bm25.pkl')
     pinecone_index, model, bm25 = setup_pinecone()
     # load the fitted bm25 model
     with open(bm25_fname, 'rb') as f:
         bm25 = pickle.load(f)
+    return query_pinecone(query, pinecone_index, model, bm25, hard_filters)
+
+def main():
     query = "Peter England baby blue jeans for men"
     #query = "locomotive jeans"
     hard_filters = build_hard_filters(color="blue", brand_name="peter_england", gender="men")
-    query_pinecone(query, pinecone_index, model, bm25, hard_filters)
+    run_pinecone_query(query, hard_filters)
+
 
 if __name__ == "__main__":
     main()

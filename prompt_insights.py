@@ -4,7 +4,6 @@ import re
 # use GPT for everyone
 import requests
 
-
 def get_prompt():
     prompt = "I am looking for jeans, a french connection jeans, which could be black color, it should be for christmas, it should be cool looking"
     prompt2 = "Cool bot I guess, actually I was looking for a blue dress from some premium brands as diwali is coming soon, it must be trendy & look good"
