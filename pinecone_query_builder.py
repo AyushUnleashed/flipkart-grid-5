@@ -12,6 +12,10 @@ def categorize_filters(insights, unique_array_dict):
     # Go through all 4 dictionaries
     for cat_insights in insights:
         category = cat_insights["category"]
+        # Add the 'category' key to the hard & soft filters insights
+        hard_filters[category]['category'] = category
+        soft_filters[category]['category'] = category
+
         for key in ['color', 'article_type', 'brand_name', 'occasion']:
             # Check if value exists in the corresponding unique array. If yes, it's a hard filter else a soft filter
             if cat_insights.get(key, None) and cat_insights[key] in unique_array_dict[key]:
