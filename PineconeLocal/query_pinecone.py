@@ -34,8 +34,8 @@ def query_pinecone(query, pinecone_index, model, bm25, hard_filters):
 
     print(result["matches"])
     for x in result["matches"]:
-        print(x["metadata"]['productDisplayName'])
-        print(x["metadata"]['styleImage'])
+        print(x["metadata"]['product_display_name'])
+        print(x["metadata"]['style_image'])
         print("\n")
 
 
@@ -47,7 +47,7 @@ def main():
         bm25 = pickle.load(f)
     query = "Peter England baby blue jeans for men"
     query = "locomotive jeans"
-    hard_filters = build_hard_filters(articleType="sports_shoes", baseColor="silver", brandName="reebok", gender="men")
+    hard_filters = build_hard_filters(article_type="sports_shoes", color="silver", brand_name="reebok", gender="men")
     query_pinecone(query, pinecone_index, model, bm25, hard_filters)
 
 if __name__ == "__main__":
