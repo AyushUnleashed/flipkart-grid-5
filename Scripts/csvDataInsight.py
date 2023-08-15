@@ -30,7 +30,7 @@ def get_most_frequent_entries_per_column(csv_file_path, excluded_columns=None):
 
 if __name__ == "__main__":
     input_csv_file = "./userData/user_data_5.csv"  # Replace with your input CSV file name
-    excluded_columns = ["productDisplayName", "id"]  # Replace with columns to exclude
+    excluded_columns = ["product_display_name", "id"]  # Replace with columns to exclude
     
     most_frequent_entries = get_most_frequent_entries_per_column(input_csv_file, excluded_columns)
     

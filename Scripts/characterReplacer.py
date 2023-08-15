@@ -25,6 +25,6 @@ def process_csv(input_file, output_file, columns_to_process):
 if __name__ == "__main__":
     input_file = "Scripts/new_data_set/new_data_set.csv"
     output_file = "Scripts/new_data_set/new_data_set_modified.csv"
-    columns_to_process = ["brandName", "baseColour", "masterCategory", "subCategory", "articleType", "usage", "Fit", "Pattern", "Shape", "Occasion", "Sleeve styling", "Sleeve length", "Fabric", "Neck"]
+    columns_to_process = ["brand_name", "color", "master_category", "sub_category", "article_type", "usage", "fit", "pattern", "shape", "occasion", "sleeve_styling", "sleeve_length", "fabric", "neck"]
 
     process_csv(input_file, output_file, columns_to_process)

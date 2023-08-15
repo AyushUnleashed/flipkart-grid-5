@@ -5,7 +5,7 @@ from openpyxl import Workbook
 # Replace 'your_file.csv' with the actual path to your CSV file
 csv_file_path = './data/myntradataset/styles.csv'
 # Replace 'column_name' with the name of the column containing keywords
-column_name = 'articleType'
+column_name = 'article_type'
 
 # Open the CSV file in read mode
 with open(csv_file_path, 'r') as csv_file:

@@ -24,7 +24,7 @@ def save_unique_values_to_json(file_path, excluded_columns, json_output_file):
 
 # Replace 'your_file.csv' with the path to your CSV file
 file_path = 'Scripts/new_data_set/new_data_set_modified.csv'
-excluded_columns = ['id', 'productDisplayName', 'masterCategory', 'subCategory', 'landingPageUrl', 'styleImage', 'gender', 'isJewellery', 'productDescription1']  # Add columns to exclude
+excluded_columns = ['id', 'product_display_name', 'master_category', 'sub_category', 'landing_page_url', 'style_image', 'gender', 'is_jewellery', 'product_description1']  # Add columns to exclude
 json_output_file = 'Scripts/unique_values/unique_values.json'  # Output JSON file path
 
 save_unique_values_to_json(file_path, excluded_columns, json_output_file)

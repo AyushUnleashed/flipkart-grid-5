@@ -60,7 +60,7 @@ def build_base_prompt_2(keys, user_prompt):
 
 
 def get_prompt_insights(user_prompt):
-    keys = ['category', 'color', 'article_type', 'clothing_brand', 'occasion', 'other_info']
+    keys = ['category', 'color', 'article_type', 'brand_name', 'occasion', 'other_info']
     base_prompt = build_base_prompt_2(keys, user_prompt=user_prompt)
     base_response = fetch_gpt_response(base_prompt)
 

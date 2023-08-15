@@ -28,43 +28,43 @@ def extract_keys(data):
     
     data_info = data.get("data", {})
     extracted_data["id"] = data_info.get("id", "none")
-    extracted_data["productDisplayName"] = data_info.get("productDisplayName", "none").lower()
-    extracted_data["brandName"] = data_info.get("brandName", "none").lower()
+    extracted_data["product_display_name"] = data_info.get("productDisplayName", "none").lower()
+    extracted_data["brand_name"] = data_info.get("brandName", "none").lower()
     master_category = data_info.get("masterCategory", {})
-    extracted_data["masterCategory"] = master_category.get("typeName", "none").lower()
+    extracted_data["master_category"] = master_category.get("typeName", "none").lower()
     
     sub_category = data_info.get("subCategory", {})
-    extracted_data["subCategory"] = sub_category.get("typeName", "none").lower()
-    extracted_data["articleType"] = data_info.get("articleType", {}).get("typeName", "none").lower()
-    extracted_data["ageGroup"] = data_info.get("ageGroup", "none").lower()
+    extracted_data["sub_category"] = sub_category.get("typeName", "none").lower()
+    extracted_data["article_type"] = data_info.get("articleType", {}).get("typeName", "none").lower()
+    extracted_data["age_group"] = data_info.get("ageGroup", "none").lower()
     extracted_data["gender"] = data_info.get("gender", "none").lower()
-    extracted_data["baseColour"] = data_info.get("baseColour", "none").lower()
+    extracted_data["color"] = data_info.get("baseColour", "none").lower()
     extracted_data["season"] = data_info.get("season", "none").lower()
     extracted_data["usage"] = data_info.get("usage", "none").lower()
     
     article_attributes = data_info.get("articleAttributes", {})
-    extracted_data["Fit"] = article_attributes.get("Fit", "none").lower()
-    extracted_data["Pattern"] = article_attributes.get("Pattern", "none").lower()
-    extracted_data["Shape"] = article_attributes.get("Shape", "none").lower()
-    extracted_data["Occasion"] = article_attributes.get("Occasion", "none").lower()
-    extracted_data["Sleeve styling"] = article_attributes.get("Sleeve Styling", "none").lower()
-    extracted_data["Sleeve length"] = article_attributes.get("Sleeve Length", "none").lower()
-    extracted_data["Fabric"] = article_attributes.get("Fabric", "none").lower()
-    extracted_data["Neck"] = article_attributes.get("Neck", "none").lower()
+    extracted_data["fit"] = article_attributes.get("Fit", "none").lower()
+    extracted_data["pattern"] = article_attributes.get("Pattern", "none").lower()
+    extracted_data["shape"] = article_attributes.get("Shape", "none").lower()
+    extracted_data["occasion"] = article_attributes.get("Occasion", "none").lower()
+    extracted_data["sleeve_styling"] = article_attributes.get("Sleeve Styling", "none").lower()
+    extracted_data["sleeve_length"] = article_attributes.get("Sleeve Length", "none").lower()
+    extracted_data["fabric"] = article_attributes.get("Fabric", "none").lower()
+    extracted_data["neck"] = article_attributes.get("Neck", "none").lower()
     other_flags_list = data_info.get("otherFlags", [])
     other_flags = extract_other_flags(other_flags_list)
     if len(other_flags) != 0:
-        extracted_data["isJewellery"] = other_flags[0].get("value", "none").lower()
+        extracted_data["is_jewellery"] = other_flags[0].get("value", "none").lower()
     else:
-        extracted_data["isJewellery"] = "none"
+        extracted_data["is_jewellery"] = "none"
     
     product_descriptors = data_info.get("productDescriptors", {})
     description_value = product_descriptors.get("description", {}).get("value", "none").lower()
-    extracted_data["productDescription1"] = extract_text_from_html(description_value).lower()
+    extracted_data["product_description1"] = extract_text_from_html(description_value).lower()
     
     style_images = data_info.get("styleImages", {}).get("default", {})
-    extracted_data["styleImage"] = style_images.get("imageURL", "none")
-    extracted_data["landingPageUrl"] = data_info.get("landingPageUrl", "none")
+    extracted_data["style_image"] = style_images.get("imageURL", "none")
+    extracted_data["landing_page_url"] = data_info.get("landingPageUrl", "none")
     
     return extracted_data
 
@@ -75,7 +75,7 @@ for filename in os.listdir(input_folder):
             try:
                 json_data = json.load(file)
                 extracted_data = extract_keys(json_data)
-                if extracted_data["ageGroup"] in ["kids-girls", "kids-boys", "kids-unisex"]:
+                if extracted_data["age_group"] in ["kids-girls", "kids-boys", "kids-unisex"]:
                     continue
                 output_data.append(extracted_data)
             except json.JSONDecodeError:
@@ -85,7 +85,7 @@ for filename in os.listdir(input_folder):
 df = pd.DataFrame(output_data)
 
 # Define the column order for the CSV file
-column_order = ["id", "productDisplayName", "brandName", "masterCategory", "subCategory", "articleType", "gender", "baseColour", "season", "usage", "Fit", "Pattern", "Shape", "Occasion", "Sleeve styling", "Sleeve length", "Fabric", "Neck", "isJewellery", "productDescription1", "styleImage", "landingPageUrl"]
+column_order = ["id", "product_display_name", "brand_name", "master_category", "sub_category", "article_type", "gender", "color", "season", "usage", "fit", "pattern", "shape", "occasion", "sleeve_styling", "sleeve_length", "fabric", "neck", "is_jewellery", "product_description1", "style_image", "landing_page_url"]
 
 # Append the DataFrame to a CSV file
 csv_filename = "./new_data_set/new_data_set.csv"
