@@ -13,7 +13,7 @@ def split_filtered_csv(input_file, output_file, num_entries_per_type):
         
         for row in reader:
             gender = row.get('gender').strip()  # Removing any extra spaces
-            article_type = row.get('articleType').strip()  # Removing any extra spaces
+            article_type = row.get('article_type').strip()  # Removing any extra spaces
             
             if gender == 'women' and article_type == 'tops' and len(female_tops_entries) < num_entries_per_type:
                 female_tops_entries.append(row)
@@ -38,8 +38,8 @@ def split_filtered_csv(input_file, output_file, num_entries_per_type):
             writer.writerows(female_entries)
 
 if __name__ == "__main__":
-    input_csv_file = "./Scripts/new_data_set/new_data_set_modified.csv"  # Replace with your input CSV file name
-    output_csv_file = "./Scripts/new_user_data/new_gwen.csv"  # Replace with the desired output CSV file name
+    input_csv_file = "dataset/main_dataset.csv"  # Replace with your input CSV file name
+    output_csv_file = "dataset/user_history_data/gwen.csv"  # Replace with the desired output CSV file name
     num_entries_per_type = 15
     
     split_filtered_csv(input_csv_file, output_csv_file, num_entries_per_type)

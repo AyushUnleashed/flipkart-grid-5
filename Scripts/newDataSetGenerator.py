@@ -23,49 +23,49 @@ def extract_keys(data):
     
     data_info = data.get("data", {})
     extracted_data["id"] = data_info.get("id", "none")
-    extracted_data["productDisplayName"] = data_info.get("productDisplayName", "none")
-    extracted_data["variantName"] = data_info.get("variantName", "none")
-    extracted_data["brandName"] = data_info.get("brandName", "none")
-    extracted_data["ageGroup"] = data_info.get("ageGroup", "none")
+    extracted_data["product_display_name"] = data_info.get("productDisplayName", "none")
+    extracted_data["variant_name"] = data_info.get("variantName", "none")
+    extracted_data["brand_name"] = data_info.get("brandName", "none")
+    extracted_data["age_group"] = data_info.get("ageGroup", "none")
     extracted_data["gender"] = data_info.get("gender", "none")
-    extracted_data["baseColour"] = data_info.get("baseColour", "none")
-    extracted_data["fashionType"] = data_info.get("fashionType", "none")
+    extracted_data["color"] = data_info.get("baseColour", "none")
+    extracted_data["fashion_type"] = data_info.get("fashionType", "none")
     extracted_data["season"] = data_info.get("season", "none")
     extracted_data["usage"] = data_info.get("usage", "none")
-    extracted_data["displayCategories"] = data_info.get("displayCategories", "none")
-    extracted_data["landingPageUrl"] = data_info.get("landingPageUrl", "none")
+    extracted_data["display_categories"] = data_info.get("displayCategories", "none")
+    extracted_data["landing_page_url"] = data_info.get("landingPageUrl", "none")
     
     article_attributes = data_info.get("articleAttributes", "none")
-    extracted_data["Fit"] = article_attributes.get("Fit", "none")
-    extracted_data["Pattern"] = article_attributes.get("Pattern", "none")
-    extracted_data["Shape"] = article_attributes.get("Shape", "none")
-    extracted_data["Occasion"] = article_attributes.get("Occasion", "none")
-    extracted_data["Sleeve styling"] = article_attributes.get("Sleeve styling", "none")
-    extracted_data["Sleeve length"] = article_attributes.get("Sleeve length", "none")
-    extracted_data["Fabric"] = article_attributes.get("Fabric", "none")
-    extracted_data["Neck"] = article_attributes.get("Neck", "none")
+    extracted_data["fit"] = article_attributes.get("Fit", "none")
+    extracted_data["pattern"] = article_attributes.get("Pattern", "none")
+    extracted_data["shape"] = article_attributes.get("Shape", "none")
+    extracted_data["occasion"] = article_attributes.get("Occasion", "none")
+    extracted_data["sleeve_styling"] = article_attributes.get("Sleeve styling", "none")
+    extracted_data["sleeve_length"] = article_attributes.get("Sleeve length", "none")
+    extracted_data["fabric"] = article_attributes.get("Fabric", "none")
+    extracted_data["neck"] = article_attributes.get("Neck", "none")
     
     style_images = data_info.get("styleImages", {}).get("default", {})
-    extracted_data["styleImage"] = style_images.get("imageURL", "none")
+    extracted_data["style_image"] = style_images.get("imageURL", "none")
     
     master_category = data_info.get("masterCategory", {})
-    extracted_data["masterCategory"] = master_category.get("typeName", "none")
+    extracted_data["master_category"] = master_category.get("typeName", "none")
     
     sub_category = data_info.get("subCategory", {})
-    extracted_data["subCategory"] = sub_category.get("typeName", "none")
+    extracted_data["sub_category"] = sub_category.get("typeName", "none")
     
     other_flags_list = data_info.get("otherFlags", [])
     other_flags = extract_other_flags(other_flags_list)
     if len(other_flags) != 0:
-        extracted_data["isJewellery"] = other_flags[0].get("value", "none")
+        extracted_data["is_jewellery"] = other_flags[0].get("value", "none")
     else:
-        extracted_data["isJewellery"] = "none"
+        extracted_data["is_jewellery"] = "none"
     
     product_descriptors = data_info.get("productDescriptors", {})
-    extracted_data["productDescription1"] = product_descriptors.get("description", {}).get("value", "none")
-    extracted_data["productDescription2"] = product_descriptors.get("style_note", {}).get("value", "none")
+    extracted_data["product_description1"] = product_descriptors.get("description", {}).get("value", "none")
+    extracted_data["product_description2"] = product_descriptors.get("style_note", {}).get("value", "none")
     
-    extracted_data["articleType"] = data_info.get("articleType", {}).get("typeName", "none")
+    extracted_data["article_type"] = data_info.get("articleType", {}).get("typeName", "none")
     
     return extracted_data
 
@@ -79,7 +79,7 @@ for filename in os.listdir(input_folder):
             try:
                 json_data = json.load(file)
                 extracted_data = extract_keys(json_data)
-                if extracted_data["ageGroup"] == "Kids-Girls" or extracted_data["ageGroup"] == "Kids-Boys":
+                if extracted_data["age_group"] == "Kids-Girls" or extracted_data["ageGroup"] == "Kids-Boys":
                     continue
                 output_data.append(extracted_data)
                 # file_count += 1
@@ -90,10 +90,7 @@ for filename in os.listdir(input_folder):
 df = pd.DataFrame(output_data)
 
 # Define the column order for the CSV file
-column_order = ["id", "productDisplayName", "variantName", "brandName", "ageGroup", "gender", "baseColour",
-                "fashionType", "season", "usage", "displayCategories", "landingPageUrl", "styleImage",
-                "masterCategory", "subCategory", "isJewellery", "productDescription1", "productDescription2",
-                "articleType"]
+column_order = ['id','product_display_name','brand_name','master_category','sub_category','article_type','gender','color','season','usage','fit','pattern','shape','occasion','sleeve_styling','sleeve_length','fabric','neck','is_jewellery','product_description1','style_image','landing_page_url']
 
 # Append the DataFrame to a CSV file
 csv_filename = "./new_data_set/new_data_set.csv"

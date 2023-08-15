@@ -13,7 +13,7 @@ def split_csv(input_file, output_directory, chunk_size, num_output_files):
             entries.append(row)
             
             if len(entries) == chunk_size:
-                output_file = os.path.join(output_directory, f'user_data_{file_counter}.csv')
+                output_file = os.path.join(output_directory, f'top_100.csv')
                 with open(output_file, 'w', newline='') as output_csv:
                     writer = csv.writer(output_csv)
                     writer.writerow(header)
@@ -26,15 +26,15 @@ def split_csv(input_file, output_directory, chunk_size, num_output_files):
                     break
         
         if entries and file_counter <= num_output_files:
-            output_file = os.path.join(output_directory, f'user_data_{file_counter}.csv')
+            output_file = os.path.join(output_directory, f'top_100.csv')
             with open(output_file, 'w', newline='') as output_csv:
                 writer = csv.writer(output_csv)
                 writer.writerow(header)
                 writer.writerows(entries)
 
 if __name__ == "__main__":
-    input_csv_file = "../dataset/main_dataset.csv"  # Replace with your input CSV file name
-    output_folder = "../dataset"  # Replace with the desired output directory
+    input_csv_file = "dataset/main_dataset.csv"  # Replace with your input CSV file name
+    output_folder = "dataset"  # Replace with the desired output directory
     # number of entries in one output file
     chunk_size = 100
     # number of output files

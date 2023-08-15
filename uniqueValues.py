@@ -1,4 +1,4 @@
-brandName_array= [
+brand_name_array= [
         "nike",
         "locomotive",
         "reebok",
@@ -403,7 +403,7 @@ brandName_array= [
         "megadeth",
         "scholl"
     ]
-articleType_array = [
+article_type_array = [
         "tshirts",
         "shorts",
         "track_pants",
@@ -545,7 +545,7 @@ articleType_array = [
         "lehenga_choli",
         "shoe_laces"
     ]
-baseColour_array = [
+color_array = [
         "white",
         "grey",
         "blue",
@@ -611,7 +611,7 @@ usage_array = [
         "party",
         "home"
     ]
-Fit_array = [
+fit_array = [
         "regular_fit",
         "slim_fit",
         "skinny_fit",
@@ -625,7 +625,7 @@ Fit_array = [
         "tailored_fit",
         "straight_fit"
     ]
-Pattern_array = [
+pattern_array = [
         "solid",
         "printed",
         "striped",
@@ -643,7 +643,7 @@ Pattern_array = [
         "perforations",
         "satin_finish"
     ]
-Shape_array = [
+shape_array = [
         "fit_and_flare",
         "shirt",
         "a_line",
@@ -654,7 +654,7 @@ Shape_array = [
         "wrap",
         "empire"
     ]
-Occasion_array = [
+occasion_array = [
         "sports",
         "casual",
         "semiformal",
@@ -670,7 +670,7 @@ Occasion_array = [
         "western",
         "evening"
     ]
-Sleeve_styling_array =[
+sleeve_styling_array =[
         "regular_sleeves",
         "batwing_sleeves",
         "puff_sleeves",
@@ -689,14 +689,14 @@ Sleeve_styling_array =[
         "cold_shoulder_sleeves",
         "slit_sleeves"
     ]
-Sleeve_length_array = [
+sleeve_length_array = [
         "short_sleeves",
         "long_sleeves",
         "sleeveless",
         "no_sleeves",
         "three_quarter_sleeves"
     ]
-Fabric_array = [
+fabric_array = [
         "synthetic",
         "cotton",
         "blended",
@@ -722,7 +722,7 @@ Fabric_array = [
         "lyocell",
         "bamboo"
     ]
-Neck_array = [
+neck_array = [
         "round_neck",
         "v_neck",
         "polo_collar",

@@ -4,9 +4,9 @@ from openpyxl import Workbook
 # Replace 'input_file.csv' with the actual path to your CSV file
 csv_file_path = './data/myntradataset/styles.csv'
 # Replace 'Keyword' with the column header where you want to search for the keyword
-column_name = 'articleType'
+column_name = 'article_type'
 # Replace 'your_keyword' with the keyword you want to search for
-target_keyword = 'Tshirts'
+target_keyword = 'tshirts'
 
 # Create a new Excel workbook
 workbook = Workbook()
