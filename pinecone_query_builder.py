@@ -1,7 +1,7 @@
 from handle_user_prompt import get_prompt_insights
 from handle_user_prompt import get_prompt
 from userPreference import get_user_purchase_insight
-from uniqueValues import brandName_array, baseColour_array, articleType_array,Occasion_array
+from uniqueValues import brand_name_array, color_array, article_type_array,occasion_array
 
 
 def categorize_filters(insights, unique_array_dict):
@@ -12,17 +12,23 @@ def categorize_filters(insights, unique_array_dict):
     # Go through all 4 dictionaries
     for cat_insights in insights:
         category = cat_insights["category"]
-        for key in ['baseColour', 'articleType', 'brandName', 'Occasion']:
+        # Add the 'category' key to the hard & soft filters insights
+        hard_filters[category]['category'] = category
+        soft_filters[category]['category'] = category
+
+        for key in ['color', 'article_type', 'brand_name', 'occasion']:
             # Check if value exists in the corresponding unique array. If yes, it's a hard filter else a soft filter
             if cat_insights.get(key, None) and cat_insights[key] in unique_array_dict[key]:
                 hard_filters[category][key] = cat_insights[key]
+                soft_filters[category][key] = 'none'
             elif cat_insights.get(key, None):
                 soft_filters[category][key] = cat_insights[key]
+                hard_filters[category][key] = 'none'
     return hard_filters, soft_filters
 
 # Unique values from PineconeLocal for 'brandName', 'baseColour', 'articleType', 'Occasion'
-unique_array_dict = {"brandName": brandName_array, "baseColour": baseColour_array,
-                     "articleType": articleType_array, "Occasion": Occasion_array}
+unique_array_dict = {"brand_name": brand_name_array, "color": color_array,
+                     "article_type": article_type_array, "occasion": occasion_array}
 
 
 # # For user's prompt insights
@@ -51,8 +57,20 @@ def analyse_user_purchase_insights():
 def analyse_user_prompt_insights():
     user_prompt = get_prompt()
     top_wear, bottom_wear, foot_wear, accessories = get_prompt_insights(user_prompt=user_prompt)
+    user_prompt_insights = [top_wear, bottom_wear, foot_wear, accessories]
+    print("user_prompt_insights:", user_prompt_insights)
+
+    hard_filters_prompt, soft_filters_prompt = categorize_filters(user_prompt_insights, unique_array_dict)
+    print("soft_filters_prompt:", soft_filters_prompt)
+    print("hard_filters_prompt:", hard_filters_prompt)
+
 
 
 
 if __name__ == "__main__":
+    print("\n\nuser_purchase_insights:::: ")
     analyse_user_purchase_insights()
+    print("\n\n***************************\n")
+    print("\n\nuser_prompt_insights:::: ")
+    analyse_user_prompt_insights()
+    print("\n\n***************************")
