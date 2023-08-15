@@ -6,6 +6,7 @@ from tqdm.auto import tqdm
 from utils.pinecone_utils import setup_pinecone
 import pickle
 import chardet
+import time
 
 def get_images(data):
     images = []
@@ -25,55 +26,133 @@ def get_images(data):
             print(f"Error encountered while processing image at index {index}. Error: {e}")
     return images
 
-def insert_data(pinecone_index, model, bm25, data, images, batch_size=200):
+import concurrent.futures
+from tqdm import tqdm
+
+# Define a function for parallel upsert
+def parallel_upsert(index, upsert_data):
+    index.upsert(upsert_data)
+
+def insert_data_parallel(pinecone_index, model, bm25, data, images, batch_size=200, num_threads=20):
     try:
-        for i in tqdm(range(0, len(data), batch_size)):
-            i_end = min(i+batch_size, len(data))
-            data_batch = data.iloc[i:i_end]
+        total_batches = len(data) // batch_size + int(len(data) % batch_size != 0)
+        print(f"Total batches: {total_batches}")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+            futures = []
 
-            # change in columns being considered for meta_dict
-            meta_dict = data_batch[['id', 'product_display_name', 'brand_name', 'master_category', 'sub_category', 'article_type', 'gender', 'color', 'season', 'occasion', 'is_jewellery', 'style_image']].to_dict(orient="records")
-            print(data.columns)
+            for batch_idx, i in enumerate(range(0, len(data), batch_size)):
+                i_end = min(i + batch_size, len(data))
+                data_batch = data.iloc[i:i_end]
 
-            # narrowed down columns that need to be converted to strings and checked for 'none'
-            cols_to_consider = ['product_display_name', 'master_category', 'sub_category', 'color', 'pattern', 'occasion', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']
-            cols_for_pinecone_query = data_batch[cols_to_consider]
-            pinecone_query_string = [ " ".join(str(val) for col, val in row.items() if val != 'none') for _, row in cols_for_pinecone_query.iterrows()]
-            img_batch = images[i:i_end]
+                meta_dict = data_batch[['id', 'product_display_name', 'brand_name', 'master_category', 'sub_category', 'article_type', 'gender', 'color', 'season', 'occasion', 'is_jewellery', 'style_image']].to_dict(orient="records")
 
-            # Create sparse BM25 vectors and dense vectors
-            sparse_embeds = bm25.encode_documents([text for text in pinecone_query_string])
-            dense_embeds = model.encode(img_batch).tolist()
+                cols_to_consider = ['product_display_name', 'master_category', 'sub_category', 'color', 'pattern', 'occasion', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']
+                cols_for_pinecone_query = data_batch[cols_to_consider]
+                pinecone_query_string = [" ".join(str(val) for col, val in row.items() if val != 'none') for _, row in cols_for_pinecone_query.iterrows()]
+                img_batch = images[i:i_end]
 
-            upserts = []
-            for sparse, dense, meta in zip(sparse_embeds, dense_embeds, meta_dict):
-                upserts.append({
-                    'id': str(meta["id"]),
-                    'sparse_values': sparse,
-                    'values': dense,
-                    'metadata': meta,
-                })
+                sparse_embeds = bm25.encode_documents([text for text in pinecone_query_string])
+                dense_embeds = model.encode(img_batch).tolist()
 
-            pinecone_index.upsert(upserts)
+                upserts = []
+                for sparse, dense, meta in zip(sparse_embeds, dense_embeds, meta_dict):
+                    upserts.append({
+                        'id': str(meta["id"]),
+                        'sparse_values': sparse,
+                        'values': dense,
+                        'metadata': meta,
+                    })
+
+                futures.append(executor.submit(parallel_upsert, pinecone_index, upserts))
+
+                # Print progress
+                print(f"Batch {batch_idx + 1}/{total_batches}: Embeddings generated: {len(upserts)}")
+
+                # Wait for all upsert tasks to complete
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    future.result()  # This will raise an exception if an error occurs in the upsert
+                except Exception as e:
+                    print(f"Error upserting data: {e}")
+
     except Exception as e:
         print(f"Error inserting data: {e}")
 
-def upsert_csv(csv_file,char_enc, pinecone_index, model, bm25):
-    try:
-        data = pd.read_csv(csv_file, encoding=char_enc)
-        data = data[['id', 'product_display_name', 'brand_name', 'color', 'master_category', 'sub_category', 'article_type', 'gender', 'season', 'occasion', 'is_jewellery', 'style_image', 'pattern', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']] # use only specified columns
-        images = get_images(data)
-        # fit the bm25 model with the 'productDisplayName' column
-        bm25.fit(data['product_display_name'])
+# def insert_data(pinecone_index, model, bm25, data, images, batch_size=200):
+#     try:
+#         for i in tqdm(range(0, len(data), batch_size)):
+#             i_end = min(i+batch_size, len(data))
+#             data_batch = data.iloc[i:i_end]
+#
+#             # change in columns being considered for meta_dict
+#             meta_dict = data_batch[['id', 'product_display_name', 'brand_name', 'master_category', 'sub_category', 'article_type', 'gender', 'color', 'season', 'occasion', 'is_jewellery', 'style_image']].to_dict(orient="records")
+#             print(data.columns)
+#
+#             # narrowed down columns that need to be converted to strings and checked for 'none'
+#             cols_to_consider = ['product_display_name', 'master_category', 'sub_category', 'color', 'pattern', 'occasion', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']
+#             cols_for_pinecone_query = data_batch[cols_to_consider]
+#             pinecone_query_string = [ " ".join(str(val) for col, val in row.items() if val != 'none') for _, row in cols_for_pinecone_query.iterrows()]
+#             img_batch = images[i:i_end]
+#
+#             # Create sparse BM25 vectors and dense vectors
+#             sparse_embeds = bm25.encode_documents([text for text in pinecone_query_string])
+#             dense_embeds = model.encode(img_batch).tolist()
+#
+#             upserts = []
+#             for sparse, dense, meta in zip(sparse_embeds, dense_embeds, meta_dict):
+#                 upserts.append({
+#                     'id': str(meta["id"]),
+#                     'sparse_values': sparse,
+#                     'values': dense,
+#                     'metadata': meta,
+#                 })
+#
+#             pinecone_index.upsert(upserts)
+#     except Exception as e:
+#         print(f"Error inserting data: {e}")
 
-        # Serialize and save the fitted model
+def upsert_csv(csv_file, char_enc, pinecone_index, model, bm25):
+    try:
+        total_start_time = time.time()  # Record the start time for the entire process
+
+        # Timing point: Reading CSV
+        read_csv_start_time = time.time()
+        data = pd.read_csv(csv_file, encoding=char_enc)
+        read_csv_end_time = time.time()
+        read_csv_elapsed_time = read_csv_end_time - read_csv_start_time
+        print("read_csv_elapsed_time:",read_csv_elapsed_time)
+        data = data[['id', 'product_display_name', 'brand_name', 'color', 'master_category', 'sub_category', 'article_type', 'gender', 'season', 'occasion', 'is_jewellery', 'style_image', 'pattern', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']]
+        images = get_images(data)
+
+        # Timing point: Fitting BM25 model
+        bm25_fit_start_time = time.time()
+        bm25.fit(data['product_display_name'])
+        bm25_fit_end_time = time.time()
+        bm25_fit_elapsed_time = bm25_fit_end_time - bm25_fit_start_time
+        print("bm25_fit_elapsed_time:",bm25_fit_elapsed_time)
+
         with open('bm25.pkl', 'wb') as f:
             pickle.dump(bm25, f)
 
-        insert_data(pinecone_index, model, bm25, data, images)
+        # Timing point: Upserts
+        upsert_start_time = time.time()
+        insert_data_parallel(pinecone_index, model, bm25, data, images, batch_size=200, num_threads=20)
+        upsert_end_time = time.time()
+        upsert_elapsed_time = upsert_end_time - upsert_start_time
+        print("upsert_elapsed_time:",upsert_elapsed_time)
 
-        # Show index description after uploading the documents
         pinecone_index.describe_index_stats()
+
+        total_end_time = time.time()  # Record the end time for the entire process
+        total_elapsed_time = total_end_time - total_start_time
+        print("upsert_elapsed_time:",total_elapsed_time)
+
+        # Print timing results
+        print(f"Reading CSV took {read_csv_elapsed_time:.2f} seconds.")
+        print(f"Fitting BM25 took {bm25_fit_elapsed_time:.2f} seconds.")
+        print(f"Upserts took {upsert_elapsed_time:.2f} seconds.")
+        print(f"Total time taken: {total_elapsed_time:.2f} seconds.")
+
     except Exception as e:
         print(f"Error occurred during upsert_csv: {e}")
 
