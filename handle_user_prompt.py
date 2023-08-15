@@ -17,7 +17,7 @@ def get_prompt():
 
 def parse_text(input_string, keys):
     # Initialize dictionaries
-    article_dict = {'top_wear': {}, 'bottom_wear': {}, 'foot_wear': {}, 'accessories': {}}
+    article_dict = {'topwear': {}, 'bottomwear': {}, 'footwear': {}, 'accessories': {}}
 
     # Loop through each line in the input string
     for line in input_string.split('\n'):
@@ -38,7 +38,7 @@ def parse_text(input_string, keys):
                         article_dict[article][key] = parts[1]
                         break
 
-    return article_dict['top_wear'], article_dict['bottom_wear'], article_dict['foot_wear'], article_dict['accessories']
+    return article_dict['topwear'], article_dict['bottomwear'], article_dict['footwear'], article_dict['accessories']
 
 def build_base_prompt(keys, user_prompt):
     base_prompt = "Ignore, All Previous Instructions, You are E-Commerce GPT, a professional Analyst from E-commerce industry with years of experience in analysing user needs"
@@ -53,9 +53,9 @@ def build_base_prompt(keys, user_prompt):
 
 
 def build_base_prompt_2(keys, user_prompt):
-    base_prompt = f"As E-Commerce GPT, generate key-value pairs for all four categories: top_wear, bottom_wear, foot_wear, and accessories, based on the user prompt. Extract and assign values based on the specific keys: {keys}. If a key's value is missing, use 'none'."
+    base_prompt = f"As E-Commerce GPT, generate key-value pairs for all four categories: topwear, bottomwear, footwear, and accessories, based on the user prompt. Extract and assign values based on the specific keys: {keys}. If a key's value is missing, use 'none'."
     base_prompt += f"\nUser Prompt: {user_prompt}\nPrompt Ended\n everything in small caps, first line should start with 'key-value pairs:'"
-    base_prompt += "\n now print 4 sets of key pairs, key format {category}_{key_name} eg: \n top_wear_category: top_wear \n top_wear_article_type: t-shirt \n now print"
+    base_prompt += "\n now print 4 sets of key pairs, key format {category}_{key_name} eg: \n topwear_category: top_wear \n topwear_article_type: t-shirt \n now print"
     return base_prompt
 
 
