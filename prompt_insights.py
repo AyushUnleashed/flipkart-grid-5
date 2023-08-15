@@ -31,6 +31,9 @@ def parse_text(input_string, keys):
         for article in article_dict:
             if article in parts[0]:
 
+                current_category = article
+                article_dict[article]['category'] = current_category
+
                 # For the identified article, see if the key is in our defined keys
                 for key in keys:
                     if key in parts[0]:
