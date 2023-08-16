@@ -48,10 +48,12 @@ def query_pinecone(query, pinecone_index, model, bm25, hard_filters):
     return first_item
 
 
+pinecone_index, model, bm25  = setup_pinecone()
 
 def run_pinecone_query(query, hard_filters):
     bm25_fname = os.path.join(os.path.dirname(__file__),'bm25.pkl')
-    pinecone_index, model, bm25 = setup_pinecone()
+
+    # pinecone_index, model, bm25 = setup_pinecone()
     # load the fitted bm25 model
     with open(bm25_fname, 'rb') as f:
         bm25 = pickle.load(f)
