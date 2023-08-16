@@ -57,8 +57,35 @@ def chat_bot():
     except Exception as e:
         print("Exception occurred", e)
 
+
+def fetch_paid_openai_response(user_prompt: str):
+    try:
+        chat_history = [{"role": "system", "content": user_prompt}]
+        print("Waiting for Paid open ai response")
+        openai_response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=chat_history
+        )
+
+        reply = openai_response.choices[0].message.content
+        completion_tokens = openai_response.usage.completion_tokens
+        prompt_tokens = openai_response.usage.prompt_tokens
+        total_tokens = openai_response.usage.total_tokens
+        print("OpenAi Paid API reply: ", reply)
+        print("completion_tokens", completion_tokens)
+        print("prompt_tokens", prompt_tokens)
+        print("total_tokens", total_tokens)
+        chat_history.append({"role": "assistant", "content": reply})
+        print("wait over")
+        return reply
+    except Exception as e:
+        print("Exception occurred while fetching response from openai", e)
+        return None
+
+
 def run_bot():
     # system_prompt()
     chat_bot()
 
-run_bot()
+if __name__ == "__main__":
+    run_bot()
