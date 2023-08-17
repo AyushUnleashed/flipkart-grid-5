@@ -1,5 +1,43 @@
 .App {
   text-align: center;
+  background: linear-gradient(
+    90deg,
+    #eff2f7 0%,
+    #eef1f8 7.6%,
+    #edf0f9 15.21%,
+    #eceff8 20.75%,
+    #ebeff8 26.3%,
+    #ebeff8 27.64%,
+    #ebeff8 28.98%,
+    #e9eef8 38.28%,
+    #e7edf9 47.58%,
+    #e6ecf9 48.12%,
+    #e6ecfa 48.66%,
+    #e5ecf9 53.13%,
+    #e4ecf9 57.6%,
+    #e3ebf9 61.54%,
+    #e3eafa 65.47%,
+    #e0eafa 68.78%,
+    #deeafa 72.09%,
+    #dce8f9 75.76%,
+    #dbe6f8 79.43%,
+    #d9e5f8 82.83%,
+    #d8e5f8 86.23%,
+    #d6e4f8 87.84%,
+    #d5e4f9 89.45%,
+    #d3e3f9 91.86%,
+    #d2e2f9 94.28%,
+    #d1e1f8 95.44%,
+    #d1e1f8 96.6%,
+    #d0e0f7 98.3%,
+    #d0e0f7 100%
+  );
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
 }
 
 .App-logo {
@@ -21,12 +59,35 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: fixed;
+  bottom: 4em;
+
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0px 1.600000023841858px 3.5999999046325684px 0px
+      rgba(0, 0, 0, 0.16),
+    0px 0.30000001192092896px 0.8999999761581421px 0px rgba(0, 0, 0, 0.12);
 }
 .BroomImage {
-  height: 10px;
-  width: 10px;
+  height: 20px;
+  width: 23px;
 }
-
+.ChatImage {
+  height: 18px;
+  width: 18px;
+}
+.PromptText {
+  border: 0px;
+  /* display: flex; */
+  background: none;
+}
+.ChatContainer {
+  display: flex;
+  align-items: center;
+}
+.WelcomeText {
+  position: absolute;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
