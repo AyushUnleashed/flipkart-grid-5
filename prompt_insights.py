@@ -1,14 +1,16 @@
 from chat_bot.gpt_for_everyone import fetch_gpt_response
+from chat_bot.gpt_bot import fetch_paid_openai_response
 import re
 # take user prompt
 # use GPT for everyone
 import requests
 
+
 def get_prompt():
     prompt = "I am looking for jeans, a french connection jeans, which could be black color, it should be for christmas, it should be cool looking"
     prompt2 = "Cool bot I guess, actually I was looking for a blue dress from some premium brands as diwali is coming soon, it must be trendy & look good"
-    prompt3 ="Hey, I'm a college going girl and I want a quirky and chic short dress for a date. Do you have anything from top fashion brands?"
-    prompt4 ="Hi, I'm a business woman in my 40s, looking for some formal, yet chic business suits. Can you recommend outfits from premium brands?"
+    prompt3 = "Hey, I'm a college going girl and I want a quirky and chic short dress for a date. Do you have anything from top fashion brands?"
+    prompt4 = "Hi, I'm a business woman in my 40s, looking for some formal, yet chic business suits. Can you recommend outfits from premium brands?"
     prompt5 = "I am looking for an outfit, a french connection jeans, which could be black color, it should be for christmas, it should be cool looking, pair it with matching shirt & accessories"
     prompt6 = "I am looking for an outfit, a french connection jeans, which could be red color, it should be for christmas, it should be cool looking, pair it with matching shirt of white color & accessories would be a hat of h&m "
     return prompt2
@@ -42,6 +44,7 @@ def parse_text(input_string, keys):
 
     return article_dict['topwear'], article_dict['bottomwear'], article_dict['footwear'], article_dict['accessories']
 
+
 def build_base_prompt(keys, user_prompt):
     base_prompt = "Ignore, All Previous Instructions, You are E-Commerce GPT, a professional Analyst from E-commerce industry with years of experience in analysing user needs"
     base_prompt += "I will give you a prompt which user has given, from that extract user insights based on keys"
@@ -51,7 +54,6 @@ def build_base_prompt(keys, user_prompt):
     base_prompt += f"\nUser Prompt: {user_prompt} \n **Prompt Ended**"
     base_prompt += f"\n Only print this, First line print Key-Value Pairs:\n From second line key: value pairs, don't use ' '  "
     return base_prompt
-
 
 
 def build_base_prompt_2(keys, user_prompt):
@@ -65,6 +67,7 @@ def get_prompt_insights(user_prompt):
     keys = ['category', 'color', 'article_type', 'brand_name', 'occasion', 'other_info']
     base_prompt = build_base_prompt_2(keys, user_prompt=user_prompt)
     base_response = fetch_gpt_response(base_prompt)
+    # base_response = fetch_paid_openai_response(base_prompt)
 
     if base_response is None:
         print("Sever is down")

@@ -4,4 +4,7 @@ requests
 pandas
 beautifulsoup4
 numpy
+uvicorn
+fastapi
+rich
 chardet

@@ -19,8 +19,6 @@ def initialize_pinecone():
     except Exception as e:
         print(f"Error initializing Pinecone: {e}")
 
-
-
 def create_index(index_name):
     try:
         if index_name not in pinecone.list_indexes():
