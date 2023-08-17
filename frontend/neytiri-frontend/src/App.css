@@ -1,0 +1,58 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+.NewButton {
+  display: inline-flex;
+  border-radius: 1em;
+  background-image: linear-gradient(to left top, #2870ea, #1b4aef);
+  padding: 10px 13.5px 10px 10px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3.5px;
+  color: white;
+  border: 0px;
+}
+.QueryHolder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.BroomImage {
+  height: 10px;
+  width: 10px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

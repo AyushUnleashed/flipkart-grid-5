@@ -7,11 +7,13 @@ import time
 
 def initialize_pinecone():
     try:
-        PINECONE_API_KEY = "dd4ed474-f906-4beb-9e87-c8808dfac671"
-        PINECONE_ENVIRONMENT = "us-central1-gcp"
+        PINECONE_API_KEY_AYUSH = "dd4ed474-f906-4beb-9e87-c8808dfac671"
+        PINECONE_API_KEY_YASHRAJ = "fc0e7d98-b575-4842-9af2-619419ed1f50"
+        PINECONE_ENVIRONMENT_AYUSH = "us-central1"
+        PINECONE_ENVIRONMENT_YASHRAJ = "gcp-starter"
         # initialize connection to pinecone (get API key at app.pinecone.io)
-        api_key = os.getenv("PINECONE_API_KEY") or PINECONE_API_KEY
-        env = os.getenv("PINECONE_ENVIRONMENT") or PINECONE_ENVIRONMENT
+        api_key = os.getenv("PINECONE_API_KEY") or PINECONE_API_KEY_YASHRAJ
+        env = os.getenv("PINECONE_ENVIRONMENT") or PINECONE_ENVIRONMENT_YASHRAJ
         # init connection to pinecone
         pinecone.init(api_key=api_key, environment=env)
     except Exception as e:
@@ -48,7 +50,7 @@ def setup_pinecone():
         print('---- BM25:', bm25)
 
         print('Creating index...')
-        index_name = "grid-database"
+        index_name = "final-database"
         pinecone_index = create_index(index_name)
         print('Index created:', pinecone_index)
         print('Setup completed.')
