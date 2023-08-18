@@ -9,3 +9,4 @@ PineConeLocal/pyvenv.cfg
 __pycache__
 .~lock.main_dataset.csv#
 .~lock.top_100.csv#
+.vscode
