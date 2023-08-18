@@ -21,6 +21,7 @@ rajesh_bio_data = UserBioData(name="Rajesh", age=55, gender="men", city="Ahmedab
 kavita_bio_data = UserBioData(name="Kavita", age=60, gender="women", city="Jaipur", email="kavita@example.com", phone="555-555-009")
 alok_bio_data = UserBioData(name="Alok", age=65, gender="men", city="Lucknow", email="alok@example.com", phone="555-555-010")
 
+current_user_bio_data = rahul_bio_data
 # if __name__ == "__main__":
     # print(f"{user1.name} is {user1.age} years old, {user1.gender}, living in {user1.city}.")
     # print(f"{amber.name} is {user2.age} years old, {user2.gender}, living in {user2.city}.")

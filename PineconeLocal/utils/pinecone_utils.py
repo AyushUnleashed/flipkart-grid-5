@@ -4,14 +4,16 @@ from pinecone_text.sparse import BM25Encoder
 from sentence_transformers import SentenceTransformer
 import torch
 import time
+from dotenv import find_dotenv, load_dotenv
+# Load environment variables from the root .env file
+root_env_path = find_dotenv()
+load_dotenv(root_env_path)
 
 def initialize_pinecone():
     try:
-        PINECONE_API_KEY = "dd4ed474-f906-4beb-9e87-c8808dfac671"
-        PINECONE_ENVIRONMENT = "us-central1-gcp"
         # initialize connection to pinecone (get API key at app.pinecone.io)
-        api_key = os.getenv("PINECONE_API_KEY") or PINECONE_API_KEY
-        env = os.getenv("PINECONE_ENVIRONMENT") or PINECONE_ENVIRONMENT
+        api_key = os.getenv("PINECONE_API_KEY")
+        env = os.getenv("PINECONE_ENVIRONMENT")
         # init connection to pinecone
         pinecone.init(api_key=api_key, environment=env)
     except Exception as e:
@@ -46,7 +48,7 @@ def setup_pinecone():
         print('---- BM25:', bm25)
 
         print('Creating index...')
-        index_name = "grid-database"
+        index_name = "final-database"
         pinecone_index = create_index(index_name)
         print('Index created:', pinecone_index)
         print('Setup completed.')
