@@ -10,3 +10,4 @@ __pycache__
 .~lock.main_dataset.csv#
 .~lock.top_100.csv#
 .vscode
+PineconeLocal/utils/credentials.py
