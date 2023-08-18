@@ -1,3 +1,5 @@
+import os
+
 import openai
 
 SYSTEM_PROMPT = '''
@@ -6,8 +8,12 @@ You will answer the question as truthfully as possible.
 If you're unsure of the answer, say Sorry, I don't know.
 '''
 
-OPEN_AI_API_KEY = "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"
-openai.api_key = OPEN_AI_API_KEY
+from dotenv import find_dotenv,load_dotenv
+# Load environment variables from the root .env file
+root_env_path = find_dotenv()
+load_dotenv(root_env_path)
+
+openai.api_key = os.getenv("OPEN_AI_API_KEY")
 def process_message(message):
     message_text = message['text']
     return message_text
