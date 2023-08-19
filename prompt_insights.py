@@ -10,7 +10,7 @@ import requests
 
 def get_prompt():
     prompt = "I am looking for jeans, a french connection jeans, which could be black color, it should be for christmas, it should be cool looking"
-    prompt2 = "Cool bot I guess, actually I was looking for a blue dress from some premium brands as diwali is coming soon, it must be trendy & look good"
+    prompt2 = "Cool bot I guess, actually I was looking for a blue dress from some premium brands as moharram is coming soon, it must be trendy & look good"
     prompt3 = "Hey, I'm a college going girl and I want a quirky and chic short dress for a date. Do you have anything from top fashion brands?"
     prompt4 = "Hi, I'm a business woman in my 40s, looking for some formal, yet chic business suits. Can you recommend outfits from premium brands?"
     prompt5 = "I am looking for an outfit, a french connection jeans, which could be black color, it should be for christmas, it should be cool looking, pair it with matching shirt & accessories"
@@ -31,7 +31,6 @@ def parse_text(input_string, keys):
 
         parts = line.split(': ')
 
-        # Check if the line indicates a change attribute
 
         # Find out which article the current line pertains to
         for article in article_dict:
@@ -50,6 +49,18 @@ def parse_text(input_string, keys):
                     if key in parts[0]:
                         article_dict[article][key] = parts[1]
                         break
+
+    # Check if any category has a non-'none' value for 'occasion' key
+    occasion_value = None
+    for article in article_dict:
+        if 'occasion' in article_dict[article] and article_dict[article]['occasion'] != 'none':
+            occasion_value = article_dict[article]['occasion']
+            break
+
+    # If occasion value is found, set it for all categories
+    if occasion_value:
+        for article in article_dict:
+            article_dict[article]['occasion'] = occasion_value
 
     return article_dict['topwear'], article_dict['bottomwear'], article_dict['footwear'], article_dict['accessories']
 
@@ -74,6 +85,7 @@ def build_base_prompt_2(keys, user_prompt):
 
 def build_assistant_prompt(keys, user_prompt):
     base_prompt = f"\nUser Prompt: {user_prompt}\nPrompt Ended"
+    base_prompt +=f" if any festival is present in prompt, fill 'ethnic' in all 'occasion' keys, eg: Karwa Chauth or Diwali or Rakhi, topwear_occasion: ethnic "
     base_prompt += "\n now print 4 sets of key pairs, key format {category}_{key_name} eg: \n topwear_category: top_wear \n topwear_article_type: t-shirt \n now print"
     return base_prompt
 
@@ -83,7 +95,8 @@ def get_prompt_insights(user_prompt):
     base_prompt = build_assistant_prompt(keys, user_prompt=user_prompt)
     # base_response = fetch_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt)
     #base_response = fetch_paid_openai_response(base_prompt)
-    base_response = get_gpt_response(base_prompt,paid=True)
+    # base_response = get_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt,paid=False)
+    base_response = get_gpt_response(base_prompt, paid=True)
 
     if base_response is None:
         print("Sever is down")

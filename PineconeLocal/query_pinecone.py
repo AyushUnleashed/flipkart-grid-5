@@ -42,22 +42,42 @@ def perform_query(pinecone_index, bm25, model, query, hard_filters, top_k=5, alp
 
 
 def query_pinecone(query, pinecone_index, model, bm25, hard_filters):
-    top_k = 5
+    top_k = 2
     result = perform_query(pinecone_index, bm25, model, query, hard_filters=hard_filters, top_k=top_k)
 
     print("Result of pinecone query for query:", query, "\n\n")
     print(result["matches"])
     selected_item = {}
     if len(result["matches"]) > 0:
-        #selected_item  = result["matches"][0]["metadata"]
-        selected_item = random.choice(result["matches"])["metadata"]
+        selected_item = result["matches"][0]["metadata"]
+        # selected_item = random.choice(result["matches"])["metadata"]
 
     if selected_item == {}:
-        filter_keys_to_keep = ['master_category', 'sub_category']
+        filter_keys_to_keep = ['master_category', 'sub_category','gender']
         modified_hard_filters = {k: v for k, v in hard_filters.items() if k in filter_keys_to_keep}
-        filter_string = " ".join([f"{k}:{v}" for k, v in modified_hard_filters.items()])
+        not_modified_hard_filters = {k: v for k, v in hard_filters.items() if k not in filter_keys_to_keep}
 
-        updated_query = f"{query} {filter_string}"
+        # Extract and flatten the values from nested dictionaries
+        filter_values = []
+        for value in not_modified_hard_filters.values():
+            if isinstance(value, dict):
+                filter_values.extend(value.values())
+            elif isinstance(value, list):
+                filter_values.extend(value)
+            else:
+                filter_values.append(value)
+
+        # Convert all values to strings
+        filter_values_str = " ".join(map(str, filter_values))
+
+        if filter_values_str:  # Check if there are any modified filter values
+            updated_query = f"{query} {filter_values_str}"
+        else:
+            updated_query = query  # If there are no modified filter values, keep the original query
+
+        print("modified query:",updated_query)
+        print("modified hard filters:",modified_hard_filters)
+        print("Result of updated pinecone query for query:", updated_query, "\n\n")
         result = perform_query(pinecone_index, bm25, model, updated_query, hard_filters=modified_hard_filters, top_k=top_k)
 
         print("Result of modified query with removed filter keys:", updated_query, "\n\n")
