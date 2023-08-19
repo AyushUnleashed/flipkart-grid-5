@@ -1,10 +1,15 @@
-from get_filters_from_insights import analyse_user_prompt_insights, analyse_user_purchase_insights_simple
+from get_filters_from_insights import analyse_user_prompt_insights, analyse_user_purchase_insights_simple, \
+    categorize_filters, unique_array_dict
 from prompt_insights import get_prompt
 from PineconeLocal.utils.filters import build_hard_filters
 from PineconeLocal.query_pinecone import run_pinecone_query
 
-def pre_process_filters(user_prompt, user_purchase_csv):
-    hard_filters_prompt, soft_filters_prompt = analyse_user_prompt_insights(user_prompt)
+def pre_process_filters(user_prompt, user_purchase_csv, change_prompt_insights=None, change_prompt=False):
+    if change_prompt:
+        hard_filters_prompt, soft_filters_prompt = categorize_filters(change_prompt_insights, unique_array_dict)
+    else:
+        hard_filters_prompt, soft_filters_prompt = analyse_user_prompt_insights(user_prompt)
+
     pinecone_queries_purchase = analyse_user_purchase_insights_simple(user_purchase_csv)
     # hard_filters_purchase, soft_filters_purchase = analyse_user_purchase_insights(user_purchase_csv)
 
@@ -74,92 +79,65 @@ def generate_pinecone_metadata_filters(hard_filters_to_be_used):
 
 
 
-def call_for_individual_categories(pinecone_filters, pinecone_queries, pinecone_queries_purchase):
-    # Generate Pinecone metadata filters
+def process_category(category,index, filters, queries, queries_purchase):
+    print("\nProcessing category:", category)
+    category_filters = filters.get(category, {})
+    category_query = queries[index]
 
-    # Separate variables for each category's filters
-    topwear_pinecone_filters = pinecone_filters.get('topwear', {})
-    bottomwear_pinecone_filters = pinecone_filters.get('bottomwear', {})
-    footwear_pinecone_filters = pinecone_filters.get('footwear', {})
-    accessories_pinecone_filters = pinecone_filters.get('accessories', {})
-    # Check and update queries for each category
-    if not topwear_pinecone_filters and not pinecone_queries[0]:
-        pinecone_queries[0] = pinecone_queries_purchase[0]
+    if not category_filters and not category_query:
+        category_query = queries_purchase[index]
 
-    if not bottomwear_pinecone_filters and not pinecone_queries[1]:
-        pinecone_queries[1] = pinecone_queries_purchase[1]
+    if not category_query:
+        category_query = category
 
-    if not footwear_pinecone_filters and not pinecone_queries[2]:
-        pinecone_queries[2] = pinecone_queries_purchase[2]
+    print("Category Filters:")
+    print(category_filters)
+    print("Category Query:")
+    print(category_query)
 
-    if not accessories_pinecone_filters and not pinecone_queries[3]:
-        pinecone_queries[3] = pinecone_queries_purchase[3]
+    category_outfit = run_pinecone_query(category_query, category_filters)
+    print("\nGenerated Outfit for", category, "is:", category_outfit)
+    print("\n--------------------------\n")
+    return category_outfit
 
-    # Add the following lines to handle empty queries array
-    if not pinecone_queries[0]:
-        pinecone_queries[0] = 'topwear'
-    if not pinecone_queries[1]:
-        pinecone_queries[1] = 'bottomwear'
-    if not pinecone_queries[2]:
-        pinecone_queries[2] = 'footwear'
-    if not pinecone_queries[3]:
-        pinecone_queries[3] = 'accessories'
+def get_outfit_from_prompt(user_prompt, user_purchase_csv):
+    pinecone_filters, pinecone_queries, pinecone_queries_purchase = pre_process_filters(user_prompt, user_purchase_csv)
+    print("pinecone_filters:", pinecone_filters)
+    print("pinecone_queries", pinecone_queries)
+    print("pinecone_queries_purchase", pinecone_queries_purchase)
 
-        # Separate variables for each category's queries
-    topwear_pinecone_query = pinecone_queries[0]
-    bottomwear_pinecone_query = pinecone_queries[1]
-    footwear_pinecone_query = pinecone_queries[2]
-    accessories_pinecone_query = pinecone_queries[3]
+    outfit = []
+    categories = ["topwear","bottomwear","footwear","accessories"]
+    for index, category in enumerate(categories):
+        category_outfit = process_category(category, index, pinecone_filters, pinecone_queries, pinecone_queries_purchase)
+        outfit.append(category_outfit)
 
-
-    # Print filters and queries for each category
-    print("Topwear Filters:")
-    print(topwear_pinecone_filters)
-    print("Topwear Query:")
-    print(topwear_pinecone_query)
-
-    print("\nBottomwear Filters:")
-    print(bottomwear_pinecone_filters)
-    print("Bottomwear Query:")
-    print(bottomwear_pinecone_query)
-
-    print("\nFootwear Filters:")
-    print(footwear_pinecone_filters)
-    print("Footwear Query:")
-    print(footwear_pinecone_query)
-
-    print("\nAccessories Filters:")
-    print(accessories_pinecone_filters)
-    print("Accessories Query:")
-    print(accessories_pinecone_query)
-
-
-    first_topwear = run_pinecone_query(topwear_pinecone_query, topwear_pinecone_filters)
-    first_bottomwear = run_pinecone_query(bottomwear_pinecone_query,bottomwear_pinecone_filters)
-    first_footwear = run_pinecone_query(footwear_pinecone_query, footwear_pinecone_filters)
-    first_accessory = run_pinecone_query(accessories_pinecone_query, accessories_pinecone_filters)
-
-    print("\n\n\n **************\n\n\n")
+    print("\n\n **************\n\n")
     print("\n Generated Outfit is: ")
     print("\n -------------------------")
-    print("\nfirst_topwear:\n",first_topwear)
-    print("\nfirst_bottomwear:\n",first_bottomwear)
-    print("\nfirst_footwear:\n",first_footwear)
-    print("\nfirst_accessory:\n",first_accessory)
+    print("\noutfit:\n", outfit)
     print("\n -------------------------")
-    outfit = [first_topwear, first_bottomwear, first_footwear, first_accessory]
+    return outfit
+
+def get_outfit_selected(user_prompt, user_purchase_csv,curr_categories, category_dict_array):
+    # add None if we don't want to fetch new one
+
+    pinecone_filters, pinecone_queries, pinecone_queries_purchase = pre_process_filters(user_prompt, user_purchase_csv,category_dict_array,change_prompt=True)
+    outfit = []
+    for index, category in enumerate(curr_categories):
+        if category == 'none':
+            outfit.append(None)
+            continue
+
+        category_outfit = process_category(category, index, pinecone_filters, pinecone_queries, pinecone_queries_purchase)
+        outfit.append(category_outfit)
     return outfit
 
 
-def main(user_prompt):
-    user_purchase_csv = 'dataset/user_history_data/gwen.csv'
-    pinecone_filters, pinecone_queries, pinecone_queries_purchase = pre_process_filters(user_prompt,user_purchase_csv)
-    print("pinecone_filters:",pinecone_filters)
-    print("pinecone_queries",pinecone_queries)
-    print("pinecone_queries_purchase", pinecone_queries_purchase)
-    call_for_individual_categories(pinecone_filters, pinecone_queries, pinecone_queries_purchase)
+
 
 
 if __name__ == "__main__":
     user_prompt = get_prompt()
-    main(user_prompt)
+    user_purchase_csv = 'dataset/user_history_data/gwen_2.csv'
+    get_outfit_from_prompt(user_prompt,user_purchase_csv)

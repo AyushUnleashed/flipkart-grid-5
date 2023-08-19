@@ -1,6 +1,7 @@
 from chat_bot.gpt_for_everyone import fetch_gpt_response
 from chat_bot.gpt_bot import fetch_paid_openai_response
 import re
+from chat_bot.gpt_bot import SYSTEM_PROMPT
 # take user prompt
 # use GPT for everyone
 import requests
@@ -29,12 +30,19 @@ def parse_text(input_string, keys):
 
         parts = line.split(': ')
 
+        # Check if the line indicates a change attribute
+
         # Find out which article the current line pertains to
         for article in article_dict:
             if article in parts[0]:
 
                 current_category = article
                 article_dict[article]['category'] = current_category
+
+                if 'to_change' in parts[0]:
+                    to_change_value = parts[1].strip().lower() == 'true'
+                    if current_category:
+                        article_dict[current_category]['to_change'] = to_change_value
 
                 # For the identified article, see if the key is in our defined keys
                 for key in keys:
@@ -63,10 +71,16 @@ def build_base_prompt_2(keys, user_prompt):
     return base_prompt
 
 
+def build_assistant_prompt(keys, user_prompt):
+    base_prompt = f"\nUser Prompt: {user_prompt}\nPrompt Ended"
+    base_prompt += "\n now print 4 sets of key pairs, key format {category}_{key_name} eg: \n topwear_category: top_wear \n topwear_article_type: t-shirt \n now print"
+    return base_prompt
+
+
 def get_prompt_insights(user_prompt):
     keys = ['category', 'color', 'article_type', 'brand_name', 'occasion', 'other_info']
-    base_prompt = build_base_prompt_2(keys, user_prompt=user_prompt)
-    base_response = fetch_gpt_response(base_prompt)
+    base_prompt = build_assistant_prompt(keys, user_prompt=user_prompt)
+    base_response = fetch_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt)
     # base_response = fetch_paid_openai_response(base_prompt)
 
     if base_response is None:

@@ -51,7 +51,7 @@ def get_user_purchase_insight(csv_file):
 
 
 if __name__ == "__main__":
-    csv_file = "../dataset/user_history_data/gwen.csv"
+    csv_file = "../dataset/user_history_data/gwen2.csv"
     most_frequent = get_user_purchase_insight(csv_file)
     for frequent in most_frequent:
         print(frequent)
