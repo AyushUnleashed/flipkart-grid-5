@@ -1,4 +1,4 @@
-
+from chat_bot.bot_choser import get_gpt_response
 from chat_bot.gpt_for_everyone import fetch_gpt_response
 from chat_bot.gpt_bot import build_pinecone_information_prompt
 from chat_bot.gpt_bot import append_reply_to_chat_history, fetch_paid_openai_response
@@ -12,8 +12,9 @@ def handle_change_prompt(outfit):
     pinecone_prompt = build_pinecone_information_prompt(category_info)
     # append_reply_to_chat_history(pinecone_prompt)
 
-    # fetch_paid_openai_response(pinecone_prompt)
-    response = fetch_gpt_response(pinecone_prompt)
+    # response = fetch_paid_openai_response(pinecone_prompt)
+    # response = fetch_gpt_response(pinecone_prompt)
+    response = get_gpt_response(pinecone_prompt,paid=True)
     if response is None:
         print("Sever is down")
         return
@@ -21,7 +22,10 @@ def handle_change_prompt(outfit):
     print(response)
 
 def handle_next_prompt(user_prompt: str, prev_outfit_index):
-    next_response = fetch_gpt_response(user_prompt)
+
+    # next_response = fetch_paid_openai_response(user_prompt)
+    # next_response = fetch_gpt_response(user_prompt)
+    next_response = get_gpt_response(user_prompt,paid=True)
 
     from prompt_insights import parse_text
     if next_response is None:
