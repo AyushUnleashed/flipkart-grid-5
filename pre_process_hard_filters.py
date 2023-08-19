@@ -90,6 +90,16 @@ def process_category(category,index, filters, queries, queries_purchase):
     if not category_query:
         category_query = category
 
+    if category == 'topwear':
+        category_filters['sub_category'] = category
+    if category == 'bottomwear':
+        category_filters['sub_category'] = category
+    if category == 'footwear':
+        category_filters['master_category'] = category
+    if category == 'accessories':
+        category_filters['master_category'] = category
+
+
     print("Category Filters:")
     print(category_filters)
     print("Category Query:")
