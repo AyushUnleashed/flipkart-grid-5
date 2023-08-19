@@ -21,7 +21,7 @@ const OutfitCard = ({ outfit, id }) => {
       break;
   }
   return (
-    <div>
+    <div className="CardWrapper">
       <img
         src={outfit.style_image}
         alt={outfit.product_display_name}
@@ -32,12 +32,12 @@ const OutfitCard = ({ outfit, id }) => {
         <p className="OtherName">Brand: {outfit.brand_name}</p>
         <p className="OtherName">Color: {outfit.color}</p>
 
-        <p className="OtherName">MasterCategory: {outfit.master_category}</p>
-        <p className="OtherName">SubCategory: {outfit.sub_category}</p>
+        {/* <p className="OtherName">MasterCategory: {outfit.master_category}</p> */}
+        {/* <p className="OtherName">SubCategory: {outfit.sub_category}</p> */}
         <p className="OtherName">ArticleType: {outfit.article_type}</p>
-        <p className="OtherName" style={{ color: "red " }}>
+        {/* <p className="OtherName" style={{ color: "red " }}>
           HardCodedType: {articleType}
-        </p>
+        </p> */}
       </div>
     </div>
   );
