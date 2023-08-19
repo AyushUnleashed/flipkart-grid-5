@@ -1,5 +1,6 @@
 from chat_bot.gpt_for_everyone import fetch_gpt_response
 from chat_bot.gpt_bot import fetch_paid_openai_response
+from chat_bot.bot_choser import get_gpt_response
 import re
 from chat_bot.gpt_bot import SYSTEM_PROMPT
 # take user prompt
@@ -80,8 +81,9 @@ def build_assistant_prompt(keys, user_prompt):
 def get_prompt_insights(user_prompt):
     keys = ['category', 'color', 'article_type', 'brand_name', 'occasion', 'other_info']
     base_prompt = build_assistant_prompt(keys, user_prompt=user_prompt)
-    base_response = fetch_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt)
-    # base_response = fetch_paid_openai_response(base_prompt)
+    # base_response = fetch_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt)
+    #base_response = fetch_paid_openai_response(base_prompt)
+    base_response = get_gpt_response(base_prompt,paid=True)
 
     if base_response is None:
         print("Sever is down")
