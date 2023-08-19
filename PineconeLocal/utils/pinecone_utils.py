@@ -4,16 +4,16 @@ from pinecone_text.sparse import BM25Encoder
 from sentence_transformers import SentenceTransformer
 import torch
 import time
+from dotenv import find_dotenv, load_dotenv
+# Load environment variables from the root .env file
+root_env_path = find_dotenv()
+load_dotenv(root_env_path)
 
 def initialize_pinecone():
     try:
-        PINECONE_API_KEY_AYUSH = "dd4ed474-f906-4beb-9e87-c8808dfac671"
-        PINECONE_API_KEY_YASHRAJ = "fc0e7d98-b575-4842-9af2-619419ed1f50"
-        PINECONE_ENVIRONMENT_AYUSH = "us-central1"
-        PINECONE_ENVIRONMENT_YASHRAJ = "gcp-starter"
         # initialize connection to pinecone (get API key at app.pinecone.io)
-        api_key = os.getenv("PINECONE_API_KEY") or PINECONE_API_KEY_YASHRAJ
-        env = os.getenv("PINECONE_ENVIRONMENT") or PINECONE_ENVIRONMENT_YASHRAJ
+        api_key = os.getenv("PINECONE_API_KEY")
+        env = os.getenv("PINECONE_ENVIRONMENT")
         # init connection to pinecone
         pinecone.init(api_key=api_key, environment=env)
     except Exception as e:

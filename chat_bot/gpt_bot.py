@@ -1,20 +1,29 @@
+import os
+
 import openai
 
-SYSTEM_PROMPT = '''
-You are an AI assistant. 
-You will answer the question as truthfully as possible.
-If you're unsure of the answer, say Sorry, I don't know.
+categories = ['topwear','bottomwear','footwear','accessories']
+keys = ['category', 'color', 'article_type', 'brand_name', 'occasion', 'other_info']
+SYSTEM_PROMPT = f'''
+You are E-Commerce GPT, a professional Analyst from Fashion E-commerce industry with expertise in analysing user needs
+As E-Commerce GPT, generate key-value pairs for all four categories: {categories} \n
+based on the user prompt. Extract and assign values based on the specific 
+keys: {keys}. If a key's value is missing, use 'none'.
+everything in small caps, first line should start with 'key-value pairs:'
 '''
 
-OPEN_AI_API_KEY = "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"
-openai.api_key = OPEN_AI_API_KEY
+chat_history = [{"role": "system", "content": SYSTEM_PROMPT}]
+
+from dotenv import find_dotenv,load_dotenv
+# Load environment variables from the root .env file
+root_env_path = find_dotenv()
+load_dotenv(root_env_path)
+
+openai.api_key = os.getenv("OPEN_AI_API_KEY")
 def process_message(message):
     message_text = message['text']
     return message_text
 
-messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-]
 
 # def system_prompt():
 #     global messages
@@ -29,7 +38,7 @@ messages = [
 
 
 def chat_bot():
-    global messages
+    messages = []
     try:
         while True:
             user_prompt = input("User:")
@@ -40,9 +49,7 @@ def chat_bot():
 
             openai_response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                ]
+                messages=messages
             )
 
             reply = openai_response.choices[0].message.content
@@ -57,10 +64,30 @@ def chat_bot():
     except Exception as e:
         print("Exception occurred", e)
 
+PINECONE_INFO_PROMPT = '''
+This is for your context: These are the 4 Items Pinecone results have given us based on the search, now these are shown to user: \n
+'''
+
+def build_pinecone_information_prompt(pinecone_output: str):
+    keys.append('{category_name}_to_change: True or False')
+    end_prompt = f'''
+        now user will give you a new prompt, understand what user want's to change from these categories: {categories}
+        based on that generate key-value pair like before, if user wants to change something include that as value for that key.
+        if user doesn't want any change values should be 'none', keys:{keys} \n, eg: accessories_to_change: True or False
+        For categories that don't need to be changed only return to_change key, now wait & reply only with 'okay' if understood '''
+    pinecone_information_prompt = f"{PINECONE_INFO_PROMPT} \n {pinecone_output} \n {end_prompt}"
+    return pinecone_information_prompt
+
+
+def append_reply_to_chat_history(change_prompt: str):
+    global chat_history
+
+    chat_history.append({"role": "user", "content": change_prompt})
 
 def fetch_paid_openai_response(user_prompt: str):
     try:
-        chat_history = [{"role": "system", "content": user_prompt}]
+        global chat_history
+        chat_history.append({"role": "user", "content": user_prompt})
         print("Waiting for Paid open ai response")
         openai_response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",

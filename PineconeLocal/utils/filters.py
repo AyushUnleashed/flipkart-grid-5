@@ -1,5 +1,5 @@
 
-def build_hard_filters(occasion=None, article_type=None, color=None, brand_name=None,
+def build_hard_filters( occasion=None, article_type=None, color=None, brand_name=None,
                        gender=None, is_jewellery=None, master_category=None,
                        product_display_name=None, season=None, style_image=None,
                        sub_category=None):
@@ -16,5 +16,14 @@ def build_hard_filters(occasion=None, article_type=None, color=None, brand_name=
     if season is not None: hard_filters["season"] = {"$eq": season}
     if style_image is not None: hard_filters["style_image"] = {"$eq": style_image}
     if sub_category is not None: hard_filters["sub_category"] = {"$eq": sub_category}
+
+    # if curr_category == 'topwear':
+    #     hard_filters["sub_category"] = {"$eq": "topwear"}
+    # if curr_category == 'bottomwear':
+    #     hard_filters["sub_category"] = {"$eq": "bottomwear"}
+    # if curr_category == 'footwear':
+    #     hard_filters["master_category"] = {"$eq": "footwear"}
+    # if curr_category == 'accessories':
+    #     hard_filters["master_category"] = {"$eq": "accessories"}
 
     return hard_filters

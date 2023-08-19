@@ -9,6 +9,9 @@ PineConeLocal/pyvenv.cfg
 __pycache__
 .~lock.main_dataset.csv#
 .~lock.top_100.csv#
+.vscode
+PineconeLocal/utils/credentials.py
+.env
 frontend/neytiri-frontend/node_modules/
 PineConeLocal/downloaded_images/
 frontend/neytiri-frontend/downloaded_images/
