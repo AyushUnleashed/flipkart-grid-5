@@ -12,3 +12,6 @@ __pycache__
 .vscode
 PineconeLocal/utils/credentials.py
 .env
+frontend/neytiri-frontend/node_modules/
+PineConeLocal/downloaded_images/
+frontend/neytiri-frontend/downloaded_images/

@@ -1,0 +1,46 @@
+/* .Card { */
+/* border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+   width: 700px; 
+  height: 700px; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); */
+/* } */
+@import url("https://fonts.googleapis.com/css2?family=Barriecito&family=Bricolage+Grotesque:opsz@10..48&family=Raleway&family=Roboto:wght@300&display=swap");
+:root {
+  --PRIMARY: "#EEEEEE";
+  --SECONDARY: "#393E46";
+  --TERTIORY: "#00ADB5";
+  --QUATERNERY: "#222831";
+}
+.CardImage {
+  max-width: 100%;
+  /* max-height: 100%; */
+  width: auto;
+  height: auto;
+  /* display: block; */
+  /* margin: 0 auto; */
+}
+.ProductName {
+  font-size: 13px;
+  font-weight: bold;
+  /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; */
+  text-transform: capitalize;
+}
+.OtherName {
+  padding: 0px;
+  margin: 2px;
+  /* font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; */
+  text-transform: capitalize;
+  font-size: 13px;
+  font-weight: 500;
+}
+.TextsHolder {
+  padding: 1em;
+  font-size: 15px;
+  background: #00d5c4;
+  text-align: left;
+  font-family: "Bricolage Grotesque", sans-serif;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

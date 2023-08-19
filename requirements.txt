@@ -9,3 +9,4 @@ fastapi
 rich
 python-dotenv
 fastapi-cors
+chardet

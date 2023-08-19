@@ -7,6 +7,7 @@ from utils.pinecone_utils import setup_pinecone
 import pickle
 import chardet
 import time
+import os
 
 def get_images(data):
     images = []
@@ -33,7 +34,7 @@ from tqdm import tqdm
 def parallel_upsert(index, upsert_data):
     index.upsert(upsert_data)
 
-def insert_data_parallel(pinecone_index, model, bm25, data, images, batch_size=200, num_threads=20):
+def insert_data_parallel(pinecone_index, model, bm25, data, batch_size=200, num_threads=20):
     try:
         total_batches = len(data) // batch_size + int(len(data) % batch_size != 0)
         print(f"Total batches: {total_batches}")
@@ -49,7 +50,29 @@ def insert_data_parallel(pinecone_index, model, bm25, data, images, batch_size=2
                 cols_to_consider = ['product_display_name', 'master_category', 'sub_category', 'color', 'pattern', 'occasion', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']
                 cols_for_pinecone_query = data_batch[cols_to_consider]
                 pinecone_query_string = [" ".join(str(val) for col, val in row.items() if val != 'none') for _, row in cols_for_pinecone_query.iterrows()]
-                img_batch = images[i:i_end]
+                
+                # img_batch = images[i:i_end]
+                
+                img_batch = []
+                for x in meta_dict: 
+                    currImageId=x["id"]
+                    currImageName=f'./downloaded_images/{currImageId}.jpg'
+                    if os.path.exists(currImageName):
+                        # Open and display the image using PIL
+                        img = Image.open(currImageName)
+                        img_batch.append(img)
+                    else:
+                        print(f"The image '{currImageName}' does not exist in the {currImageName} directory.")
+
+                '''
+                go from index i to i_end
+                get meta_dict["id"] as their image id
+                find the imageId.jpg file in the local storage
+                add such images in the img_batch array
+                '''
+                # for x in img_batch:
+                #     print(type(x))
+                #     print(x)
 
                 sparse_embeds = bm25.encode_documents([text for text in pinecone_query_string])
                 dense_embeds = model.encode(img_batch).tolist()
@@ -122,7 +145,7 @@ def upsert_csv(csv_file, char_enc, pinecone_index, model, bm25):
         read_csv_elapsed_time = read_csv_end_time - read_csv_start_time
         print("read_csv_elapsed_time:",read_csv_elapsed_time)
         data = data[['id', 'product_display_name', 'brand_name', 'color', 'master_category', 'sub_category', 'article_type', 'gender', 'season', 'occasion', 'is_jewellery', 'style_image', 'pattern', 'sleeve_styling', 'sleeve_length', 'fabric', 'neck']]
-        images = get_images(data)
+        # images = get_images(data)
 
         # Timing point: Fitting BM25 model
         bm25_fit_start_time = time.time()
@@ -136,7 +159,7 @@ def upsert_csv(csv_file, char_enc, pinecone_index, model, bm25):
 
         # Timing point: Upserts
         upsert_start_time = time.time()
-        insert_data_parallel(pinecone_index, model, bm25, data, images, batch_size=200, num_threads=20)
+        insert_data_parallel(pinecone_index, model, bm25, data, batch_size=200, num_threads=20)
         upsert_end_time = time.time()
         upsert_elapsed_time = upsert_end_time - upsert_start_time
         print("upsert_elapsed_time:",upsert_elapsed_time)
@@ -158,13 +181,17 @@ def upsert_csv(csv_file, char_enc, pinecone_index, model, bm25):
 
 def main():
     pinecone_index, model, bm25 = setup_pinecone()
-    csv_file = "../dataset/top_100.csv"
+    startTime=time.time()
+    csv_file = "../dataset/main_dataset.csv"
     rawdata = open(csv_file, 'rb').read()
     result = chardet.detect(rawdata)
     char_enc = result['encoding']
 
     print(char_enc)
-    upsert_csv(csv_file, char_enc, pinecone_index, model, bm25)
+    upsert_csv(csv_file, char_enc, pinecone_index, model, bm25)    
+    endTime=time.time()
+    print('final time to upsert',endTime-startTime)
+
 
 if __name__ == "__main__":
     main()
