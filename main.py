@@ -32,13 +32,15 @@ def get_outfit(user_prompt_object: UserPromptInput):
 
     print(GET_OUTFIT_ENDPOINT_COUNT, " time get_outfit is runnning ")
     response = None
+    outfit = None
     if GET_OUTFIT_ENDPOINT_COUNT == 1:
 
         outfit = get_outfit_from_prompt(user_prompt, user_purchase_csv)
     else:
+        prev_outfit_index = GET_OUTFIT_ENDPOINT_COUNT - 2
         from handle_change_prompt import handle_change_prompt, handle_next_prompt
-        handle_change_prompt(OUTFIT_HISTORY[GET_OUTFIT_ENDPOINT_COUNT - 2])  # handle 2nd prompt onwards
-        outfit = handle_next_prompt(user_prompt)
+        handle_change_prompt(OUTFIT_HISTORY[prev_outfit_index])  # handle 2nd prompt onwards
+        outfit = handle_next_prompt(user_prompt, prev_outfit_index)
 
     response = {"outfit": outfit}
     OUTFIT_HISTORY.append(response)
