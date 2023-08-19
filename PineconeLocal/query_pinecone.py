@@ -47,15 +47,24 @@ def query_pinecone(query, pinecone_index, model, bm25, hard_filters):
 
     print("Result of pinecone query for query:", query, "\n\n")
     print(result["matches"])
+    selected_item = {}
     if len(result["matches"]) > 0:
         #selected_item  = result["matches"][0]["metadata"]
         selected_item = random.choice(result["matches"])["metadata"]
-    else:
-        selected_item  = {}
-    # for x in result["matches"]:
-    #     print(x["metadata"]['product_display_name'])
-    #     print(x["metadata"]['style_image'])
-    #     print("\n")
+
+    if selected_item == {}:
+        filter_keys_to_keep = ['master_category', 'sub_category']
+        modified_hard_filters = {k: v for k, v in hard_filters.items() if k in filter_keys_to_keep}
+        filter_string = " ".join([f"{k}:{v}" for k, v in modified_hard_filters.items()])
+
+        updated_query = f"{query} {filter_string}"
+        result = perform_query(pinecone_index, bm25, model, updated_query, hard_filters=modified_hard_filters, top_k=top_k)
+
+        print("Result of modified query with removed filter keys:", updated_query, "\n\n")
+        print(result["matches"])
+
+        if len(result["matches"]) > 0:
+            selected_item = random.choice(result["matches"])["metadata"]
 
     return selected_item
 
