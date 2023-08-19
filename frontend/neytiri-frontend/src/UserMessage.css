@@ -1,0 +1,22 @@
+:root {
+  --PRIMARY: "#EEEEEE";
+  --SECONDARY: "#393E46";
+  --TERTIORY: "#00ADB5";
+  --QUATERNERY: "#222831";
+}
+.btn {
+  /* background-image: linear-gradient(
+    to right,
+    #a1c4fd 0%,
+    #c2e9fb 51%,
+    #a1c4fd 100%
+  ); */
+  background: #00d5c4;
+  margin: 1em;
+  padding: 1em;
+  color: #000;
+  border-radius: 15px;
+  font-weight: 500;
+
+  box-shadow: -10px 8px 0px rgb(196 181 253);
+}

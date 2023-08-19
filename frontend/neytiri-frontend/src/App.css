@@ -1,59 +1,87 @@
+:root {
+  --PRIMARY: "#EEEEEE";
+  --SECONDARY: "#393E46";
+  --TERTIORY: "#00ADB5";
+  --QUATERNERY: "#222831";
+}
+@import url("https://fonts.googleapis.com/css2?family=Barriecito&family=Bricolage+Grotesque:opsz@10..48&family=Raleway&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap&family=Roboto:ital,wght@0,500;0,900;1,500&display=swap");
 .App {
   text-align: center;
-  background: linear-gradient(
-    90deg,
-    #eff2f7 0%,
-    #eef1f8 7.6%,
-    #edf0f9 15.21%,
-    #eceff8 20.75%,
-    #ebeff8 26.3%,
-    #ebeff8 27.64%,
-    #ebeff8 28.98%,
-    #e9eef8 38.28%,
-    #e7edf9 47.58%,
-    #e6ecf9 48.12%,
-    #e6ecfa 48.66%,
-    #e5ecf9 53.13%,
-    #e4ecf9 57.6%,
-    #e3ebf9 61.54%,
-    #e3eafa 65.47%,
-    #e0eafa 68.78%,
-    #deeafa 72.09%,
-    #dce8f9 75.76%,
-    #dbe6f8 79.43%,
-    #d9e5f8 82.83%,
-    #d8e5f8 86.23%,
-    #d6e4f8 87.84%,
-    #d5e4f9 89.45%,
-    #d3e3f9 91.86%,
-    #d2e2f9 94.28%,
-    #d1e1f8 95.44%,
-    #d1e1f8 96.6%,
-    #d0e0f7 98.3%,
-    #d0e0f7 100%
-  );
+  background: var(--PRIMARY);
   min-height: 100vh;
   min-width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: absolute;
+  position: relative;
+  font-family: "Asap", sans-serif;
+  background: #ebfbfa;
 }
+.Container {
+  position: relative;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  background: #f6f4eb;
+  border: 3px solid #00adb5;
+  margin-bottom: 8em;
+}
+.Card {
+  border-radius: 12px;
+  width: 16%;
+  margin: 0.5em;
+  height: auto;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 6.675869941711426px 25.868999481201172px -1.668969988822937px rgba(73, 141, 255, 0.3);
+  box-shadow: 10px 8px 0px rgb(191 219 254);
+}
+.Card2 {
+  border-radius: 12px;
+  width: 30%;
+  margin: 0.5em;
+  height: auto;
+  padding: 1em;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 6.675869941711426px 25.868999481201172px -1.668969988822937px rgba(73, 141, 255, 0.3);
+  box-shadow: 10px 8px 0px rgb(191 219 254);
+  font-weight: 600;
+}
+.ImageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
 
+  border-radius: 10px;
+}
+.PrevSearchText {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 .NewButton {
-  display: inline-flex;
-  border-radius: 1em;
-  background-image: linear-gradient(to left top, #2870ea, #1b4aef);
-  padding: 10px 13.5px 10px 10px;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3.5px;
-  color: white;
+  /* display: inline-flex; */
+  /* border-radius: 1em; */
+  /* border-radius: 24px; */
+  /* background-image: linear-gradient(to left top, #00adb573, #1b4aef); */
+  /* padding: 10px 13.5px 10px 10px; */
+  /* justify-content: center; */
+  /* align-items: flex-start; */
+  /* gap: 3.5px; */
+  /* color: white; */
   border: 0px;
+  padding: 0px;
+  margin: 0px;
+
+  background: transparent;
 }
 .QueryHolder {
   display: flex;
@@ -61,23 +89,41 @@
   align-items: center;
   position: fixed;
   bottom: 4em;
-
+  width: 60%;
   border-radius: 24px;
   background: #fff;
   box-shadow: 0px 1.600000023841858px 3.5999999046325684px 0px
-      rgba(0, 0, 0, 0.16),
-    0px 0.30000001192092896px 0.8999999761581421px 0px rgba(0, 0, 0, 0.12);
+      rgba(0, 0, 0, 0.26),
+    0px 0.30000001192092896px 0.8999999761581421px 0px rgba(0, 0, 0, 0.72);
 }
 .BroomImage {
-  height: 20px;
-  width: 23px;
+  /* height: 20px;
+  
+  width: 23px; */
+
+  background: transparent;
 }
 .ChatImage {
   height: 18px;
   width: 18px;
+  margin: 8px;
 }
 .PromptText {
   border: 0px;
+  border-radius: 0px;
+  outline: 0px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  align-items: center;
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  margin: 10px;
+  resize: none; /*remove the resize handle on the bottom right*/
   /* display: flex; */
   background: none;
 }
@@ -85,8 +131,29 @@
   display: flex;
   align-items: center;
 }
+
 .WelcomeText {
-  position: absolute;
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* color: transparent; */
+  /* position: absolute; */
+  /* background-image: repeating-radial-gradient(
+    closest-side at 20px 20px,
+    rgb(196 181 253),
+    rgb(191 219 254),
+    rgb(196 181 253)
+  ); */
+  font-size: 30px;
+  padding: 1em;
+  font-weight: 700;
+
+  text-shadow: 1px;
+  border-radius: 15px;
+  border: 4px solid #00adb5;
+  font-family: "Bricolage Grotesque", sans-serif;
+  background: #f6f4eb;
+
+  /* text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.08); */
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
