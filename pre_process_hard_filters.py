@@ -36,6 +36,32 @@ def process_soft_filters(soft_filters):
 
     return pinecone_queries
 
+def process_soft_filters_trends(soft_filters, trends_filters):
+    categories = ["topwear", "bottomwear", "footwear", "accessories"]
+    pinecone_queries = []
+
+    for category in categories:
+        category_data_soft_filters = soft_filters.get(category, {})
+        category_data_trends_filters = trends_filters(category, {})
+        pinecone_query = ""
+
+        for key, value in category_data_soft_filters.items():
+            if key in ['color', 'occasion', 'brand_name','other_info'] and value != 'none':
+                if pinecone_query:
+                    pinecone_query += ' '
+                pinecone_query += value
+
+        for key, value in category_data_trends_filters.items():
+            if key in ['article_type'] and value != 'none':
+                if pinecone_query:
+                    pinecone_query += ' '
+                pinecone_query += value
+
+        pinecone_queries.append(pinecone_query)
+
+    return pinecone_queries
+
+
 def process_hard_filters(hard_filters_prompt):
     categories = ["topwear", "bottomwear", "footwear", "accessories"]
 
@@ -143,11 +169,21 @@ def get_outfit_selected(user_prompt, user_purchase_csv,curr_categories, category
         outfit.append(category_outfit)
     return outfit
 
-
-
-
-
 if __name__ == "__main__":
-    user_prompt = get_prompt()
-    user_purchase_csv = 'dataset/user_history_data/gwen_2.csv'
-    get_outfit_from_prompt(user_prompt,user_purchase_csv)
+    soft_filters = {'topwear': {'category': 'topwear', 'other_info': 'none', 'color': 'red', 'article_type': 'pants', 'brand_name': 'none', 'occasion': 'none'},
+                    'bottomwear': {'category': 'bottomwear', 'other_info': 'none', 'color': 'none', 'article_type': 'none', 'brand_name': 'none', 'occasion': 'none'},
+                    'footwear': {'category': 'footwear', 'other_info': 'none', 'color': 'none', 'article_type': 'none', 'brand_name': 'none', 'occasion': 'none'},
+                    'accessories': {'category': 'accessories', 'other_info': 'none', 'color': 'none', 'article_type': 'none', 'brand_name': 'none', 'occasion': 'none'}}
+
+    trends_filters = {'topwear': {'category': 'topwear', 'other_info': 'none', 'color': 'blue', 'article_type': 'tshirts', 'brand_name': 'none', 'occasion': 'none'},
+                    'bottomwear': {'category': 'bottomwear', 'other_info': 'none', 'color': 'none', 'article_type': 'none', 'brand_name': 'none', 'occasion': 'none'},
+                    'footwear': {'category': 'footwear', 'other_info': 'none', 'color': 'none', 'article_type': 'none', 'brand_name': 'none', 'occasion': 'none'},
+                    'accessories': {'category': 'accessories', 'other_info': 'none', 'color': 'none', 'article_type': 'none', 'brand_name': 'none', 'occasion': 'none'}}
+
+    process_soft_filters_trends(soft_filters, trends_filters)
+#
+# if __name__ == "__main__":
+#     user_prompt = get_prompt()
+#     user_purchase_csv = 'dataset/user_history_data/gwen_2.csv'
+#     get_outfit_from_prompt(user_prompt,user_purchase_csv)
+

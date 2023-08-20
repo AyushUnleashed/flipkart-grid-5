@@ -14,7 +14,7 @@ def handle_change_prompt(outfit):
 
     # response = fetch_paid_openai_response(pinecone_prompt)
     # response = fetch_gpt_response(pinecone_prompt)
-    response = get_gpt_response(pinecone_prompt,paid=True)
+    response = get_gpt_response(pinecone_prompt,paid=False)
     if response is None:
         print("Sever is down")
         return
@@ -25,7 +25,7 @@ def handle_next_prompt(user_prompt: str, prev_outfit_index):
 
     # next_response = fetch_paid_openai_response(user_prompt)
     # next_response = fetch_gpt_response(user_prompt)
-    next_response = get_gpt_response(user_prompt,paid=True)
+    next_response = get_gpt_response(user_prompt,paid=False)
 
     from prompt_insights import parse_text
     if next_response is None:
