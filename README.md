@@ -6,7 +6,7 @@
 
 ### Problem statement
 
-- Shift from traditional search to conversational fashion discovery
+- Shift from traditional search to conversational fashion discovery.
 - Need for personalized and trend-aligned outfit recommendations.
 - Enhancing user experience and confidence in fashion choices.
 
