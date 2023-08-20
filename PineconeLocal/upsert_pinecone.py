@@ -154,7 +154,7 @@ def upsert_csv(csv_file, char_enc, pinecone_index, model, bm25):
         bm25_fit_elapsed_time = bm25_fit_end_time - bm25_fit_start_time
         print("bm25_fit_elapsed_time:",bm25_fit_elapsed_time)
 
-        with open('bm25.pkl', 'wb') as f:
+        with open('bm25_choli.pkl', 'wb') as f:
             pickle.dump(bm25, f)
 
         # Timing point: Upserts
@@ -182,7 +182,7 @@ def upsert_csv(csv_file, char_enc, pinecone_index, model, bm25):
 def main():
     pinecone_index, model, bm25 = setup_pinecone()
     startTime=time.time()
-    csv_file = "../dataset/jhumka.csv"
+    csv_file = "../dataset/choli.csv"
     rawdata = open(csv_file, 'rb').read()
     result = chardet.detect(rawdata)
     char_enc = result['encoding']
