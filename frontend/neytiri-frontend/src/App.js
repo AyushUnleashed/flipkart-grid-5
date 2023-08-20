@@ -256,7 +256,7 @@ function App() {
     setPlaceholderText("What outfit are you looking for?");
     try {
       //http://192.168.248.92:8122/reset_chat
-      const response = await fetch("http://192.168.248.92:8122/reset_chat");
+      const response = await fetch("http://192.168.248.195:8122/reset_chat");
       if (response.ok) {
         console.log("Chat Cleared");
       } else {
@@ -435,7 +435,7 @@ function App() {
         },
       ];
       setChatLog((prevChats) => [...prevChats, ...currData]);
-      const endpoint = "http://192.168.248.92:8122/get_outfit"; // Replace with your actual endpoint URL
+      const endpoint = "http://192.168.248.195:8122/get_outfit"; // Replace with your actual endpoint URL
 
       try {
         const response = await fetch(endpoint, {
