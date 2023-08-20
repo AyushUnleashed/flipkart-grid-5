@@ -1,7 +1,7 @@
 import os
 
 import openai
-
+from fastapi import HTTPException
 categories = ['topwear','bottomwear','footwear','accessories']
 keys = ['category', 'color', 'article_type', 'brand_name', 'occasion', 'other_info']
 SYSTEM_PROMPT = f'''
@@ -107,7 +107,10 @@ def fetch_paid_openai_response(user_prompt: str):
         return reply
     except Exception as e:
         print("Exception occurred while fetching response from openai", e)
-        return None
+        # Handle the exception and return a 500 status code
+        error_message = f"An error occurred: {str(e)}"
+        error_response = {"error": error_message, "status": 500}
+        raise HTTPException(status_code=500, detail=error_message)
 
 
 def run_bot():
