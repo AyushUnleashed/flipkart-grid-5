@@ -20,4 +20,6 @@
   font-weight: 500;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   font-size: 20px;
+  width: 55%;
+  text-align: left;
 }

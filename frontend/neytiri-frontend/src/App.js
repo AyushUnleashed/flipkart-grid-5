@@ -420,7 +420,7 @@ function App() {
     console.log("curr cnt is ", currCnt);
     setIsSubmitDisabled(true);
     setPlaceholderText("Query in progress...");
-    if (currCnt <= 10) {
+    if (currCnt <= 7) {
       event.preventDefault();
       const currText = outfitText;
       setOutfitText("");
@@ -551,7 +551,7 @@ function App() {
               <div className="ImageContainer">
                 {Obj.OutFits && Obj.OutFits.length === 0 ? (
                   <>
-                    {cntMsg >= 10 ? (
+                    {cntMsg >= 7 ? (
                       <div className="Card2">
                         Sorry, You have reached the free tier chat message limit
                         of this conversation, Kindly clear the chat or upgrade
