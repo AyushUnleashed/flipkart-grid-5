@@ -2,18 +2,18 @@ import csv
 from openpyxl import Workbook
 
 # Replace 'input_file.csv' with the actual path to your CSV file
-csv_file_path = './data/myntradataset/styles.csv'
+csv_file_path = 'dataset/main_dataset.csv'
 # Replace 'Keyword' with the column header where you want to search for the keyword
 column_name = 'article_type'
 # Replace 'your_keyword' with the keyword you want to search for
-target_keyword = 'tshirts'
+target_keyword = 'lehenga_choli'
 
 # Create a new Excel workbook
 workbook = Workbook()
 sheet = workbook.active
 
 # Write header row in the Excel sheet
-with open(csv_file_path, 'r') as csv_file:
+with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
     csv_reader = csv.reader(csv_file)
     headers = next(csv_reader)
     sheet.append(headers)
