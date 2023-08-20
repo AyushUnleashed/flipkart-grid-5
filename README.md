@@ -49,10 +49,10 @@ to start the FastAPI backend server.
 
 Create a .env file at the root director which should have the following variables-
 
-`PINECONE_API_KEY = "fc0e7d98-b575-4842-9af2-619419ed1f50"
+`PINECONE_API_KEY = "your api key"
 `
 
-`PINECONE_ENVIRONMENT = "gcp-starter"
+`PINECONE_ENVIRONMENT = "your env"
 `
 
 `OPEN_AI_API_KEY = "YOUR_API_KEY_HERE"
@@ -63,8 +63,6 @@ Create a .env file at the root director which should have the following variable
 
 `ACCESS_TOKEN = os.getenv("ACCESS_TOKEN_FOR_INSTAGRAM")`
 
-_API Key for PineCone has been provided intentionally for developers to access the database where data for searchable products is stored._
-
 ### Frontend:
 
 Navigate to the frontend folder and install the dependancies using
@@ -74,17 +72,6 @@ run the server locally using `npm start`
 
 This will start your frontend server on the default `localhost:3000`
 
-# Screenshorts:
-
-User giving the first prompt for generating an ethnic outfit for "karwa chuth" occation.
-![First Screenshort](./AssetsREADME/image.png)
-
-User asking to change the leggings to salwar and color of jhumka
-
-![Second Screenshort](./AssetsREADME/image-1.png)
-
-Changing the topwear outfit to Lehenga Choli
-![Alt text](./AssetsREADME/image-2.png)
 
 # How does it work?
 
@@ -130,6 +117,18 @@ Solution: GPT API identifies what needs to be changed and based on that VectorDB
 searched again.
 
 ![Alt text](./AssetsREADME/Diagram2.png)
+
+# Screenshorts:
+
+User giving the first prompt for generating an ethnic outfit for "karwa chuth" occation.
+![First Screenshort](./AssetsREADME/image.png)
+
+User asking to change the leggings to salwar and color of jhumka
+
+![Second Screenshort](./AssetsREADME/image-1.png)
+
+Changing the topwear outfit to Lehenga Choli
+![Alt text](./AssetsREADME/image-2.png)
 
 ## **Glossary**
 
