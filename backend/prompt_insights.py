@@ -95,8 +95,8 @@ def get_prompt_insights(user_prompt):
     base_prompt = build_assistant_prompt(keys, user_prompt=user_prompt)
     # base_response = fetch_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt)
     #base_response = fetch_paid_openai_response(base_prompt)
-    base_response = get_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt,paid=False)
-    # base_response = get_gpt_response(base_prompt, paid=True)
+    # base_response = get_gpt_response(SYSTEM_PROMPT + "\n" + base_prompt,paid=False)
+    base_response = get_gpt_response(base_prompt, paid=True)
 
     if base_response is None:
         print("Sever is down")
