@@ -29,6 +29,13 @@
   /* border: 3px solid #00adb5; */
   margin-bottom: 8em;
 }
+.polka {
+  background-image: radial-gradient(rgb(140, 135, 135) 10%, transparent 10%),
+    radial-gradient(rgb(140, 135, 135) 10%, transparent 10%);
+  background-position: 0px 0px, 104px 104px;
+  background-size: 208px 208px;
+  background-color: rgb(235, 251, 250);
+}
 .Card {
   border-radius: 1.5em;
   width: 16%;
@@ -46,16 +53,19 @@
   height: auto;
   padding: 1em;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0px 6.675869941711426px 25.868999481201172px -1.668969988822937px rgba(73, 141, 255, 0.3);
-  box-shadow: 10px 8px 0px rgb(191 219 254);
-  font-weight: 600;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  font-weight: 5 00;
+  background: #00d5c4;
+  border-radius: 1.3em;
+  color: white;
+  border-top-left-radius: 0px;
 }
 .ImageContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-
+  width: 100%;
   border-radius: 10px;
 }
 .PrevSearchText {
@@ -69,7 +79,12 @@
   pointer-events: none;
 }
 .HorizotalLine {
-  height: 2px;
+  /* height: 2px; */
+  /* border: 1px solid black; */
+  z-index: 10;
+  background: black;
+  width: 78%;
+  margin-bottom: 3em;
 }
 .NewButton {
   /* display: inline-flex; */

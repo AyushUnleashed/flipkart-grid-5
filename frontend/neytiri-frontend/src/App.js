@@ -249,9 +249,12 @@ function App() {
 
   const clearChat = async () => {
     setChatLog([]);
+    setOutfitText("");
     setIsSubmitDisabled(false);
+    setCntMsg(0);
     setPlaceholderText("What outfit are you looking for?");
     try {
+      //http://192.168.248.92:8122/reset_chat
       const response = await fetch("http://192.168.248.92:8122/reset_chat");
       if (response.ok) {
         console.log("Chat Cleared");
@@ -262,138 +265,175 @@ function App() {
       console.error("Error fetching data:", error);
     }
   };
-  const fakeApiCall = async (currText) => {
-    // Simulate a delay to mimic network response time
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  // const fakeApiCall = async (currText) => {
+  //   // Simulate a delay to mimic network response time
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const fakeResponse = {
-      outfit: [
-        {
-          IsUser: false,
-          OutFits: [
-            {
-              article_type: "tshirts",
-              brand_name: "hanes",
-              color: "black",
-              gender: "men",
-              id: 49963,
-              is_jewellery: false,
-              master_category: "apparel",
-              occasion: "casual",
-              product_display_name: "hanes men black pack of 3 t-shirt",
-              season: "summer",
-              style_image:
-                "http://assets.myntassets.com/v1/images/style/properties/Hanes-Men-Black-Pack-of-3-T-shirt_424f9c9fcdaa10ff2b4fe6b1fa6c18bd_images.jpg",
-              sub_category: "topwear",
-            },
-            {
-              article_type: "shorts",
-              brand_name: "hanes",
-              color: "black",
-              gender: "men",
-              id: 49958,
-              is_jewellery: false,
-              master_category: "apparel",
-              occasion: "casual",
-              product_display_name: "hanes men black athletic 3/4th pants",
-              season: "summer",
-              style_image:
-                "http://assets.myntassets.com/v1/images/style/properties/Hanes-Men-Black-34-Length-Pants_086779a69d95e440744e02cbb33e1581_images.jpg",
-              sub_category: "bottomwear",
-            },
-            {
-              article_type: "casual_shoes",
-              brand_name: "converse",
-              color: "white",
-              gender: "unisex",
-              id: 4441,
-              is_jewellery: false,
-              master_category: "footwear",
-              occasion: "none",
-              product_display_name: "converse unisex canvas hi white shoe",
-              season: "fall",
-              style_image:
-                "http://assets.myntassets.com/v1/images/style/properties/e6c6697fd3aabe8522060801baf0e711_images.jpg",
-              sub_category: "shoes",
-            },
-            {
-              article_type: "watches",
-              brand_name: "esprit",
-              color: "steel",
-              gender: "men",
-              id: 10237,
-              is_jewellery: false,
-              master_category: "accessories",
-              occasion: "none",
-              product_display_name: "esprit men croso black steel watch",
-              season: "winter",
-              style_image:
-                "http://assets.myntassets.com/v1/images/style/properties/cf1675179772f0380d5c44bb797e7df1_images.jpg",
-              sub_category: "watches",
-            },
-          ],
-        },
-      ],
-    };
+  //   const fakeResponse = {
+  //     outfit: [
+  //       {
+  //         IsUser: false,
+  //         OutFits: [
+  //           {
+  //             article_type: "tshirts",
+  //             brand_name: "hanes",
+  //             color: "black",
+  //             gender: "men",
+  //             id: 49963,
+  //             is_jewellery: false,
+  //             master_category: "apparel",
+  //             occasion: "casual",
+  //             product_display_name: "hanes men black pack of 3 t-shirt",
+  //             season: "summer",
+  //             style_image:
+  //               "http://assets.myntassets.com/v1/images/style/properties/Hanes-Men-Black-Pack-of-3-T-shirt_424f9c9fcdaa10ff2b4fe6b1fa6c18bd_images.jpg",
+  //             sub_category: "topwear",
+  //           },
+  //           {
+  //             article_type: "shorts",
+  //             brand_name: "hanes",
+  //             color: "black",
+  //             gender: "men",
+  //             id: 49958,
+  //             is_jewellery: false,
+  //             master_category: "apparel",
+  //             occasion: "casual",
+  //             product_display_name: "hanes men black athletic 3/4th pants",
+  //             season: "summer",
+  //             style_image:
+  //               "http://assets.myntassets.com/v1/images/style/properties/Hanes-Men-Black-34-Length-Pants_086779a69d95e440744e02cbb33e1581_images.jpg",
+  //             sub_category: "bottomwear",
+  //           },
+  //           {
+  //             article_type: "casual_shoes",
+  //             brand_name: "converse",
+  //             color: "white",
+  //             gender: "unisex",
+  //             id: 4441,
+  //             is_jewellery: false,
+  //             master_category: "footwear",
+  //             occasion: "none",
+  //             product_display_name: "converse unisex canvas hi white shoe",
+  //             season: "fall",
+  //             style_image:
+  //               "http://assets.myntassets.com/v1/images/style/properties/e6c6697fd3aabe8522060801baf0e711_images.jpg",
+  //             sub_category: "shoes",
+  //           },
+  //           {
+  //             article_type: "watches",
+  //             brand_name: "esprit",
+  //             color: "steel",
+  //             gender: "men",
+  //             id: 10237,
+  //             is_jewellery: false,
+  //             master_category: "accessories",
+  //             occasion: "none",
+  //             product_display_name: "esprit men croso black steel watch",
+  //             season: "winter",
+  //             style_image:
+  //               "http://assets.myntassets.com/v1/images/style/properties/cf1675179772f0380d5c44bb797e7df1_images.jpg",
+  //             sub_category: "watches",
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   };
 
-    return fakeResponse;
-  };
+  //   return fakeResponse;
+  // };
 
-  const handleSubmitFake = async (event) => {
+  // const handleSubmitFake = async (event) => {
+  //   let currCnt = cntMsg;
+  //   currCnt += 1;
+  //   console.log("curr cnt is ", currCnt);
+  //   setIsSubmitDisabled(true);
+  //   setPlaceholderText("Query in progress...");
+  //   if (currCnt <= 5) {
+  //     event.preventDefault();
+  //     const currText = outfitText;
+  //     setOutfitText("");
+  //     const currData = [
+  //       {
+  //         IsUser: true,
+  //         UserPrompt: currText,
+  //       },
+  //       {
+  //         IsUser: false,
+  //         OutFits: [],
+  //       },
+  //     ];
+  //     setChatLog((prevChats) => [...prevChats, ...currData]);
+  //     // setTimeout(() => {}, 1000);
+  //     try {
+  //       // Simulate the API call
+  //       const data = await fakeApiCall(currText);
+
+  //       const currData = [
+  //         {
+  //           IsUser: false,
+  //           OutFits: data.outfit,
+  //         },
+  //       ];
+  //       setChatLog((prevChats) => {
+  //         // Create a copy of the previous array
+  //         const newChatLog = [...prevChats];
+
+  //         // Remove the last item from the copy
+  //         newChatLog.pop();
+
+  //         // Add the new item (currData) to the end
+  //         newChatLog.push(...currData);
+
+  //         return newChatLog;
+  //       });
+  //       setIsSubmitDisabled(false);
+  //       setOutfits(data.outfit);
+  //       setCntMsg(currCnt);
+  //       setPlaceholderText("What outfit are you looking for?");
+  //       console.log("Outfit search successful!");
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   } else {
+  //     event.preventDefault();
+  //     // const currText = outfitText;
+  //     setOutfitText("");
+
+  //     const currData = [
+  //       {
+  //         IsUser: false,
+  //         OutFits: [],
+  //       },
+  //     ];
+  //     setChatLog((prevChats) => [...prevChats, ...currData]);
+  //     setIsSubmitDisabled(true);
+  //     setPlaceholderText(
+  //       "Limit Reached. Clear chat or refresh the page to continue!"
+  //     );
+  //   }
+  // };
+
+  const handleSubmit = async (event) => {
     let currCnt = cntMsg;
     currCnt += 1;
     console.log("curr cnt is ", currCnt);
-    if (currCnt <= 5) {
+    setIsSubmitDisabled(true);
+    setPlaceholderText("Query in progress...");
+    if (currCnt <= 10) {
       event.preventDefault();
       const currText = outfitText;
       setOutfitText("");
-
-      try {
-        // Simulate the API call
-        const data = await fakeApiCall(currText);
-
-        const currData = [
-          {
-            IsUser: true,
-            UserPrompt: currText,
-          },
-          {
-            IsUser: false,
-            OutFits: data.outfit,
-          },
-        ];
-        setChatLog((prevChats) => [...prevChats, ...currData]);
-        setOutfits(data.outfit);
-        setCntMsg(currCnt);
-        console.log("Outfit search successful!");
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    } else {
-      event.preventDefault();
-      const currText = outfitText;
-      setOutfitText("");
-
       const currData = [
+        {
+          IsUser: true,
+          UserPrompt: currText,
+        },
         {
           IsUser: false,
           OutFits: [],
         },
       ];
       setChatLog((prevChats) => [...prevChats, ...currData]);
-      setIsSubmitDisabled(true);
-      setPlaceholderText(
-        "Limit Reached. Clear chat or refresh the page to continue!"
-      );
-    }
-  };
-  const handleSubmit = async (event) => {
-    let currCnt = cntMsg;
-    currCnt += 1;
-    if (currCnt <= 5) {
-      event.preventDefault();
-      const currText = outfitText;
-      setOutfitText("");
       const endpoint = "http://192.168.248.92:8122/get_outfit"; // Replace with your actual endpoint URL
 
       try {
@@ -411,27 +451,42 @@ function App() {
           const data = await response.json();
           const currData = [
             {
-              IsUser: true,
-              UserPrompt: currText,
-            },
-            {
               IsUser: false,
               OutFits: data.outfit,
             },
           ];
-          setChatLog((prevChats) => [...prevChats, ...currData]);
+          setChatLog((prevChats) => {
+            // Create a copy of the previous array
+            const newChatLog = [...prevChats];
+
+            // Remove the last item from the copy
+            newChatLog.pop();
+
+            // Add the new item (currData) to the end
+            newChatLog.push(...currData);
+
+            return newChatLog;
+          });
+          setIsSubmitDisabled(false);
           setOutfits(data.outfit);
+          setCntMsg(currCnt);
+          setPlaceholderText("What outfit are you looking for?");
 
           console.log("Outfit search successful!");
         } else {
           console.error("Outfit search failed.");
         }
       } catch (error) {
+        setIsSubmitDisabled(false);
+        setCntMsg(currCnt);
+        setPlaceholderText(
+          "I am sorry can't continue. I am still learning so I appreciate your understanding, Kindly Refresh"
+        );
         console.error("Error:", error);
       }
     } else {
       event.preventDefault();
-      const currText = outfitText;
+      // const currText = outfitText;
       setOutfitText("");
       const endpoint = "http://192.168.248.92:8122/get_outfit";
       const currData = [
@@ -461,7 +516,7 @@ function App() {
   };
   const handleTextAreaKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
-      handleSubmitFake(event);
+      handleSubmit(event);
     }
   };
   return (
@@ -470,7 +525,7 @@ function App() {
         Welcome to Neytiri: An outfit Avatar Generator!
       </h2>
       <hr className="HorizotalLine" />
-      <div className="Container">
+      <div className="Container ">
         {chatLog.map((Obj, index) => (
           <>
             {Obj.IsUser ? (
@@ -479,19 +534,29 @@ function App() {
               </div>
             ) : (
               <div className="ImageContainer">
-                {Obj.OutFits.length === 0 ? (
-                  <div className="Card2">
-                    Sorry, You have reached the free tier chat message limit of
-                    this conversation, Kindly clear the chat or upgrade to a
-                    better plan!
-                  </div>
+                {Obj.OutFits && Obj.OutFits.length === 0 ? (
+                  <>
+                    {cntMsg >= 10 ? (
+                      <div className="Card2">
+                        Sorry, You have reached the free tier chat message limit
+                        of this conversation, Kindly clear the chat or upgrade
+                        to a better plan!
+                      </div>
+                    ) : (
+                      <div className="Card2">
+                        {" "}
+                        Waiting for the response, Hold Up!
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <div className="ImageContainer">
-                    {Obj.OutFits.map((outfit, index) => (
-                      <div className="Card">
-                        <OutfitCard outfit={outfit} id={index} />
-                      </div>
-                    ))}
+                    {Obj.OutFits &&
+                      Obj.OutFits.map((outfit, index) => (
+                        <div className="Card">
+                          <OutfitCard outfit={outfit} id={index} />
+                        </div>
+                      ))}
                   </div>
                 )}
               </div>
@@ -522,7 +587,7 @@ function App() {
             />
           </div>
         </form>
-        <button className="NewButton" onClick={handleSubmitFake}>
+        <button className="NewButton" onClick={handleSubmit}>
           <img src={send} className="BroomImage" alt="Send Message" />
         </button>
       </div>
