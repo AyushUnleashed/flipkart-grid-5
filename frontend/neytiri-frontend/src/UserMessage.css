@@ -11,12 +11,13 @@
     #c2e9fb 51%,
     #a1c4fd 100%
   ); */
-  background: #00d5c4;
+  background: white;
   margin: 1em;
   padding: 1em;
   color: #000;
-  border-radius: 15px;
+  border-radius: 1.3em;
+  border-top-right-radius: 0px;
   font-weight: 500;
-
-  box-shadow: -10px 8px 0px rgb(196 181 253);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  font-size: 20px;
 }

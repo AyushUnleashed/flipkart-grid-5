@@ -18,12 +18,15 @@
   /* max-height: 100%; */
   width: auto;
   height: auto;
+  margin-top: 1em;
+  border-radius: 1.5em;
+  border-top-left-radius: 0px;
   /* display: block; */
   /* margin: 0 auto; */
 }
 .ProductName {
-  font-size: 13px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 550;
   /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; */
   text-transform: capitalize;
 }
@@ -32,7 +35,7 @@
   margin: 2px;
   /* font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; */
   text-transform: capitalize;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 }
 .TextsHolder {
@@ -43,4 +46,11 @@
   font-family: "Bricolage Grotesque", sans-serif;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  line-height: 26px;
+  color: white;
+}
+.CardWrapper {
+  background: #00d5c4;
+  border-radius: 1.3em;
+  border-top-left-radius: 0px;
 }

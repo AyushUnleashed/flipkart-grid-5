@@ -25,18 +25,26 @@
   flex-direction: column;
   align-items: center;
   width: 80%;
-  background: #f6f4eb;
-  border: 3px solid #00adb5;
+  /* background: #f6f4eb; */
+  /* border: 3px solid #00adb5; */
   margin-bottom: 8em;
 }
+.polka {
+  background-image: radial-gradient(rgb(140, 135, 135) 10%, transparent 10%),
+    radial-gradient(rgb(140, 135, 135) 10%, transparent 10%);
+  background-position: 0px 0px, 104px 104px;
+  background-size: 208px 208px;
+  background-color: rgb(235, 251, 250);
+}
 .Card {
-  border-radius: 12px;
+  border-radius: 1.5em;
   width: 16%;
   margin: 0.5em;
   height: auto;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0px 6.675869941711426px 25.868999481201172px -1.668969988822937px rgba(73, 141, 255, 0.3);
-  box-shadow: 10px 8px 0px rgb(191 219 254);
+  /* box-shadow: 0px 6.675869941711426px 25.868999481201172px -1.668969988822937px rgba(73, 141, 255, 0.3);
+  box-shadow: 10px 8px 0px rgb(191 219 254); */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 .Card2 {
   border-radius: 12px;
@@ -45,16 +53,19 @@
   height: auto;
   padding: 1em;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0px 6.675869941711426px 25.868999481201172px -1.668969988822937px rgba(73, 141, 255, 0.3);
-  box-shadow: 10px 8px 0px rgb(191 219 254);
-  font-weight: 600;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  font-weight: 5 00;
+  background: #00d5c4;
+  border-radius: 1.3em;
+  color: white;
+  border-top-left-radius: 0px;
 }
 .ImageContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-
+  width: 100%;
   border-radius: 10px;
 }
 .PrevSearchText {
@@ -66,6 +77,14 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.HorizotalLine {
+  /* height: 2px; */
+  /* border: 1px solid black; */
+  z-index: 10;
+  background: black;
+  width: 78%;
+  margin-bottom: 3em;
 }
 .NewButton {
   /* display: inline-flex; */
@@ -79,7 +98,7 @@
   /* color: white; */
   border: 0px;
   padding: 0px;
-  margin: 0px;
+  margin: 6px;
 
   background: transparent;
 }
@@ -90,7 +109,7 @@
   position: fixed;
   bottom: 4em;
   width: 60%;
-  border-radius: 24px;
+  border-radius: 36px;
   background: #fff;
   box-shadow: 0px 1.600000023841858px 3.5999999046325684px 0px
       rgba(0, 0, 0, 0.26),
@@ -112,6 +131,8 @@
   border: 0px;
   border-radius: 0px;
   outline: 0px;
+  font-family: "Arial", sans-serif;
+  font-size: 19px;
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -148,10 +169,18 @@
   font-weight: 700;
 
   text-shadow: 1px;
-  border-radius: 15px;
-  border: 4px solid #00adb5;
+  /* border-radius: 15px; */
+  /* border: 4px solid #00adb5; */
   font-family: "Bricolage Grotesque", sans-serif;
-  background: #f6f4eb;
+  color: #000;
+  text-align: center;
+  /* font-family: "Poppins"; */
+  /* font-size: 23px; */
+  /* font-style: normal; */
+  /* font-weight: 700; */
+  line-height: normal;
+  text-transform: capitalize;
+  /* background: #f6f4eb; */
 
   /* text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.08); */
 }
