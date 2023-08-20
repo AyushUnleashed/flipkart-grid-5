@@ -14,14 +14,26 @@ GET_OUTFIT_ENDPOINT_COUNT = 0
 
 OUTFIT_HISTORY = []
 
-user_purchase_csv = 'dataset/user_history_data/gwen_2.csv'
+user_purchase_csv = 'dataset/user_history_data/john.csv'
+from chat_bot.gpt_bot import chat_history, SYSTEM_PROMPT
 
 @endpoint_router.get("/reset_chat")
 def reset_chat():
     global GET_OUTFIT_ENDPOINT_COUNT, OUTFIT_HISTORY
     GET_OUTFIT_ENDPOINT_COUNT = 0
     OUTFIT_HISTORY.clear()
+
+    chat_history.clear()
+    chat_history.append({"role": "system", "content": SYSTEM_PROMPT})
+    print("Chat Reset")
+    print("New Length of current history is:", len(chat_history))
     return {"message": "Chat reset was successful"}
+
+
+OCCASSION = None
+
+def get_occasion_from_prompt(user_prompt):
+    from utils.festivals import festival_array
 
 
 @endpoint_router.post("/get_outfit")
@@ -29,8 +41,10 @@ def get_outfit(user_prompt_object: UserPromptInput):
     global GET_OUTFIT_ENDPOINT_COUNT, OUTFIT_HISTORY, user_purchase_csv
     user_prompt = user_prompt_object.user_prompt
     GET_OUTFIT_ENDPOINT_COUNT += 1
+    OCCASSION = get_occasion_from_prompt(user_prompt)
 
     print(GET_OUTFIT_ENDPOINT_COUNT, " time get_outfit is runnning ")
+    print("Length of current history is:", len(chat_history))
     response = None
     outfit = None
     if GET_OUTFIT_ENDPOINT_COUNT == 1:
