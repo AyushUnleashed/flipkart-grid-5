@@ -19,7 +19,7 @@ output_folder = 'downloaded_images'
 os.makedirs(output_folder, exist_ok=True)
 
 # Read the CSV file and detect encoding
-csv_file_path = 'jhumka.csv'  # Replace with the actual path to your CSV file
+csv_file_path = 'choli.csv'  # Replace with the actual path to your CSV file
 csv_encoding = detect_encoding(csv_file_path)
 data = pd.read_csv(csv_file_path, encoding=csv_encoding)
 
