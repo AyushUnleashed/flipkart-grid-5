@@ -56,7 +56,7 @@ def insert_data_parallel(pinecone_index, model, bm25, data, batch_size=200, num_
                 img_batch = []
                 for x in meta_dict: 
                     currImageId=x["id"]
-                    currImageName=f'./downloaded_images/{currImageId}.jpg'
+                    currImageName=f'./downloaded_images2/{currImageId}.jpg'
                     if os.path.exists(currImageName):
                         # Open and display the image using PIL
                         img = Image.open(currImageName)
@@ -182,7 +182,7 @@ def upsert_csv(csv_file, char_enc, pinecone_index, model, bm25):
 def main():
     pinecone_index, model, bm25 = setup_pinecone()
     startTime=time.time()
-    csv_file = "../dataset/main_dataset.csv"
+    csv_file = "../dataset/jhumka.csv"
     rawdata = open(csv_file, 'rb').read()
     result = chardet.detect(rawdata)
     char_enc = result['encoding']

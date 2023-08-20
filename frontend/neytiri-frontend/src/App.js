@@ -5,6 +5,7 @@ import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import OutfitCard from "./OutfitCard";
 import UserMessage from "./UserMessage";
+import LoadingSpinner from "./Loader/Loader";
 
 function App() {
   // var countMessages = 0;
@@ -446,7 +447,7 @@ function App() {
           body: JSON.stringify({ user_prompt: currText }),
         });
 
-        if (response.ok) {
+        if (response.status === 200) {
           // Handle successful response
           const data = await response.json();
           const currData = [
@@ -474,6 +475,22 @@ function App() {
 
           console.log("Outfit search successful!");
         } else {
+          setIsSubmitDisabled(false);
+          setChatLog((prevChats) => {
+            // Create a copy of the previous array
+            const newChatLog = [...prevChats];
+
+            // Remove the last item from the copy
+            newChatLog.pop();
+
+            // Add the new item (currData) to the end
+
+            return newChatLog;
+          });
+          setCntMsg(currCnt);
+          setPlaceholderText(
+            "I am sorry can't continue. I am still learning so I appreciate your understanding, Kindly Refresh"
+          );
           console.error("Outfit search failed.");
         }
       } catch (error) {
@@ -521,9 +538,7 @@ function App() {
   };
   return (
     <div ref={messagesContainerRef} className="App">
-      <h2 className="WelcomeText">
-        Welcome to Neytiri: An outfit Avatar Generator!
-      </h2>
+      <h2 className="WelcomeText">Neytiri: A GenAI Outfit Generator!</h2>
       <hr className="HorizotalLine" />
       <div className="Container ">
         {chatLog.map((Obj, index) => (
@@ -546,6 +561,7 @@ function App() {
                       <div className="Card2">
                         {" "}
                         Waiting for the response, Hold Up!
+                        {isSubmitDisabled ? <LoadingSpinner /> : null}
                       </div>
                     )}
                   </>
