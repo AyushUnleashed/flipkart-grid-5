@@ -2,8 +2,7 @@ import pandas as pd
 import requests
 from PIL import Image
 from io import BytesIO
-from tqdm.auto import tqdm
-from utils.pinecone_utils import setup_pinecone
+from backend.utils import setup_pinecone
 import pickle
 import chardet
 import time
@@ -28,7 +27,7 @@ def get_images(data):
     return images
 
 import concurrent.futures
-from tqdm import tqdm
+
 
 # Define a function for parallel upsert
 def parallel_upsert(index, upsert_data):
