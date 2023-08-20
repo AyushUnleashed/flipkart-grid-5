@@ -14,7 +14,7 @@ GET_OUTFIT_ENDPOINT_COUNT = 0
 
 OUTFIT_HISTORY = []
 
-user_purchase_csv = 'dataset/user_history_data/john.csv'
+user_purchase_csv = 'dataset/user_history_data/gwen_2.csv'
 from chat_bot.gpt_bot import chat_history, SYSTEM_PROMPT
 
 @endpoint_router.get("/reset_chat")
@@ -36,29 +36,38 @@ def get_occasion_from_prompt(user_prompt):
     from utils.festivals import festival_array
 
 
+from fastapi import HTTPException
+
 @endpoint_router.post("/get_outfit")
 def get_outfit(user_prompt_object: UserPromptInput):
     global GET_OUTFIT_ENDPOINT_COUNT, OUTFIT_HISTORY, user_purchase_csv
     user_prompt = user_prompt_object.user_prompt
     GET_OUTFIT_ENDPOINT_COUNT += 1
-    OCCASSION = get_occasion_from_prompt(user_prompt)
+    # OCCASSION = get_occasion_from_prompt(user_prompt)
 
-    print(GET_OUTFIT_ENDPOINT_COUNT, " time get_outfit is runnning ")
-    print("Length of current history is:", len(chat_history))
-    response = None
-    outfit = None
-    if GET_OUTFIT_ENDPOINT_COUNT == 1:
+    try:
+        print(GET_OUTFIT_ENDPOINT_COUNT, " time get_outfit is running ")
+        print("Length of current history is:", len(chat_history))
+        response = None
+        outfit = None
+        if GET_OUTFIT_ENDPOINT_COUNT == 1:
+            outfit = get_outfit_from_prompt(user_prompt, user_purchase_csv)
+        else:
+            prev_outfit_index = GET_OUTFIT_ENDPOINT_COUNT - 2
+            from handle_change_prompt import handle_change_prompt, handle_next_prompt
+            handle_change_prompt(OUTFIT_HISTORY[prev_outfit_index])  # handle 2nd prompt onwards
+            outfit = handle_next_prompt(user_prompt, prev_outfit_index)
 
-        outfit = get_outfit_from_prompt(user_prompt, user_purchase_csv)
-    else:
-        prev_outfit_index = GET_OUTFIT_ENDPOINT_COUNT - 2
-        from handle_change_prompt import handle_change_prompt, handle_next_prompt
-        handle_change_prompt(OUTFIT_HISTORY[prev_outfit_index])  # handle 2nd prompt onwards
-        outfit = handle_next_prompt(user_prompt, prev_outfit_index)
+        response = {"outfit": outfit}
+        OUTFIT_HISTORY.append(response)
+        return response
+    except Exception as e:
+        # Handle the exception and return a 500 status code
+        error_message = f"An error occurred: {str(e)}"
+        error_response = {"error": error_message, "status": 500}
+        # return error_response  # Return the error response with 500 status code
+        raise HTTPException(status_code=500, detail=error_message)
 
-    response = {"outfit": outfit}
-    OUTFIT_HISTORY.append(response)
-    return response
 
 
 # @endpoint_router.post("/change_outfit")
