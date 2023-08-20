@@ -3,12 +3,12 @@ from collections import defaultdict
 from openpyxl import Workbook
 
 # Replace 'your_file.csv' with the actual path to your CSV file
-csv_file_path = './data/myntradataset/styles.csv'
+csv_file_path = 'dataset/main_dataset.csv'
 # Replace 'column_name' with the name of the column containing keywords
-column_name = 'gender'
+column_name = 'article_type'
 
 # Open the CSV file in read mode
-with open(csv_file_path, 'r') as csv_file:
+with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
     # Create a CSV reader object
     csv_reader = csv.DictReader(csv_file)
     
@@ -35,6 +35,6 @@ for keyword, frequency in keyword_frequencies.items():
     sheet.append([keyword, frequency])
 
 # Save the Excel file
-excel_file_path = 'gender.xlsx'
+excel_file_path = 'occasion.xlsx'
 workbook.save(excel_file_path)
 print(f"Keyword frequency data saved to '{excel_file_path}'.")
